@@ -13,7 +13,7 @@ date || credit || debit || balance
 10/01/2012 || 1000.00 || || 1000.00
 ```
 
-### Requirements
+### Requirements
 You should be able to interact with your code via python console.
 Deposits, withdrawal can be taken in as inputs to the python script
 Account statement (date, amount, balance) printed on the console.
