@@ -54,7 +54,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> bank.deposit(50)
 ```
 
-*Note: This is only for illustrating how you can have an interactive python console. Please feel free to use different names for Classes/objects/functions needed* 
+*Note: This is only for illustrating how you can have an interactive python console. Please feel free to use different names for Classes/objects/functions* 
 
 ### Some of the tools we use
 - AWS https://aws.amazon.com/  (EC2, S3, RDS, Lambda, DynamoDB)
