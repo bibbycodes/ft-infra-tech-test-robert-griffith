@@ -1,6 +1,6 @@
 ## Python Bank App
 
-Create a bank app which satifies the following acceptance criteria:
+Create a bank app which satisfies the following acceptance criteria:
 ```
 Given a client makes a deposit of 1000 on 10-01-2012
 And a deposit of 2000 on 13-01-2012
@@ -27,7 +27,7 @@ Your code should follow SOLID principles
 - Push the data to a database (like dynamoDB on AWS)
 
 ### Version 3
-- Think of Infrastrcuture as code for your resources
+- Think of Infrastructure as code for your resources
 - Run this as a Serverless app with an api to access this 
 
 ### Example for a interactive python code is in the repo
@@ -54,10 +54,13 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> bank.deposit(50)
 ```
 
+*Note: This is only for illustrating how you can have an interactive python console. Please feel free to use different names for Classes/objects/functions needed* 
+
 ### Some of the tools we use
 - AWS https://aws.amazon.com/  (EC2, S3, RDS, Lambda, DynamoDB)
 - Cloudformation https://aws.amazon.com/cloudformation/
 - Python https://www.python.org/
 - Docker https://www.docker.com/
 - Ansible http://docs.ansible.com/
+- Serverless https://serverless.com/
 
