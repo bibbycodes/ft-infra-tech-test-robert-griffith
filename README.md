@@ -1,7 +1,7 @@
-## Python Bank App
 <h2 align="center"> Cloud Engineer Tech Exercise </h2>
  <p align="center">  <a href='#overview'>Overview</a> |  <a href='#requirements'>Requirements</a>   |   <a href='#versions'>Versions</a> |   <a href='#example'>Example</a> |  <a href='#links'>Useful Links</a> 
 
+## Python Bank App
 ### Overview <a name="overview"> </a>
 Create a bank app which satisfies the following acceptance criteria:
 ```
@@ -25,6 +25,8 @@ Your code should follow SOLID principles
 ### Versions <a name="versions"> </a>
 #### Version 1 
 - Data can be kept in memory (it doesn't need to be stored to a database or anything).
+- Good documentation
+- Code at a place where we can access it from
 
 #### Version 2
 - Add unit tests to validate your code
@@ -68,3 +70,8 @@ Type "help", "copyright", "credits" or "license" for more information.
 - Ansible http://docs.ansible.com/
 - Serverless https://serverless.com/
 
+Notes: 
+- Make sure we can access your repo. 
+- You will have the opportunity to tell us about your reasoning, process and choice of tools during your interview. We are as interested in what you’ve built as we are in how you built it and why!
+
+Good luck!
