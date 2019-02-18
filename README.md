@@ -71,7 +71,8 @@ Type "help", "copyright", "credits" or "license" for more information.
 - Serverless https://serverless.com/
 
 Notes: 
-- Make sure we can access your repo. 
+- Fork this project and make it as a private repo while you are working on it.
+- Make sure we can access your repo by adding us as collaborators to your project. 
 - You will have the opportunity to tell us about your reasoning, process and choice of tools during your interview. We are as interested in what you’ve built as we are in how you built it and why!
 
 Good luck!
