@@ -36,7 +36,7 @@ Your code should follow SOLID principles
 - Think of Infrastructure as code for your resources
 - Run this as a Serverless app with an api to access this 
 
-### Example for a interactive python code is in the repo <a name="example"> </a>
+### Example for a interactive python code <a name="example"> </a>
 
 Assuming your code looks like this:
 
