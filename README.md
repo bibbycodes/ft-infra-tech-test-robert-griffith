@@ -3,6 +3,8 @@
 
 ## Python Bank App
 ### Overview <a name="overview"> </a>
+We as a team do believe in test driven development and see quality of our products as important as the functionality of the products. We would like you to build this app with quality as front and centre of the app.
+
 Create a bank app which satisfies the following acceptance criteria:
 ```
 Given a client makes a deposit of 1000 on 10-01-2012
