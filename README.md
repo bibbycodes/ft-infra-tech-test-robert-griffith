@@ -27,7 +27,7 @@ Your code should follow SOLID principles
 ### Versions <a name="versions"> </a>
 #### Version 1 
 - Data can be kept in memory (it doesn't need to be stored to a database or anything).
-- Good documentation
+- Good documentation. Move the README file that contains the instructions as instructions.md and create your READEME.md
 - Code at a place where we can access it from
 
 #### Version 2
