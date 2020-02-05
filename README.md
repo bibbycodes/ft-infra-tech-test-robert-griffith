@@ -26,7 +26,7 @@ Your code should follow SOLID principles
 
 ### Versions <a name="versions"> </a>
 
-You can use the versions below to guide you through your solution starting from version 1 to build a core components and then work your way to adding more features as you move versions.
+You can use the versions below to guide you through your solution starting from version 1 to build the core components and then work your way to adding more features as you move through the versions.
 
 #### Version 1 
 - Data can be kept in memory (it doesn't need to be stored to a database or anything).
