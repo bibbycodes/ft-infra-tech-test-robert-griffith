@@ -11,9 +11,18 @@ class Account:
     self.ledger = []
 
   def deposit(self, amount):
+    today = date.today().strftime("%d/%m/%Y")
     if type(amount) in [int, float] and amount > 0:
-      today = date.today().strftime("%d/%m/%Y")
       self.balance += amount
+      self.ledger.append([amount, today])
+      return self.ledger
+    else:
+      return "Invalid Input"
+
+  def withdraw(self, amount):
+    today = date.today().strftime("%d/%m/%Y")
+    if type(amount) in [int, float] and amount > 0:
+      self.balance -= amount
       self.ledger.append([amount, today])
       return self.ledger
     else:
