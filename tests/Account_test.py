@@ -18,11 +18,11 @@ def test_init_account_with_none_value():
 
 def test_deposit_with_zero_amount():
   account = Account()
-  assert account.deposit(0) == 0
+  assert account.deposit(0) == "Invalid Input"
 
 def test_deposit_with_positive_amount():
   account = Account()
-  assert account.deposit(100) == 100
+  assert account.deposit(100) == [100]
 
 def test_deposit_with_negative_amount():
   account = Account()
