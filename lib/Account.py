@@ -7,5 +7,8 @@ class Account:
     self.balance = starting_balance
 
   def deposit(self, amount = 0):
-    self.balance += amount
-    return amount
+    if type(amount) in [int, float] and amount >= 0:
+      self.balance += amount
+      return amount
+    else:
+      return "Invalid Input"

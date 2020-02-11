@@ -23,3 +23,12 @@ def test_deposit_with_zero_amount():
 def test_deposit_with_positive_amount():
   account = Account()
   assert account.deposit(100) == 100
+
+def test_deposit_with_negative_amount():
+  account = Account()
+  assert account.deposit(-100) == "Invalid Input"
+
+def test_deposit_with_string_input():
+  account = Account()
+  assert account.deposit("100") == "Invalid Input"
+
