@@ -9,7 +9,7 @@ def test_withdraw_with_zero_amount():
   assert account.withdraw(0) == "Invalid Input"
 
 def test_withdraw_with_positive_amount():
-  assert account.withdraw(300) == [[300, today]]
+  assert account.withdraw(300) == [[-300, today]]
 
 def test_withdraw_with_negative_amount():
   assert account.withdraw(-300) == "Invalid Input"
@@ -25,4 +25,4 @@ def test_withdraw_with_invalid_input():
 
 def test_multiple_withdraws():
   account2.withdraw(300)
-  assert account2.withdraw(200) == [[300, today], [200, today]]
+  assert account2.withdraw(200) == [[-300, today], [-200, today]]
