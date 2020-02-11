@@ -4,8 +4,7 @@ from lib.Transaction import Transaction
 
 class Account:
   def __init__(self, start_bal = 0):
-    self.start_bal = start_bal if Validate.number(start_bal) else 0
-    self.balance = start_bal
+    self.balance = start_bal if Validate.number(start_bal) else 0
     self.ledger = []
 
   def deposit(self, amount):
