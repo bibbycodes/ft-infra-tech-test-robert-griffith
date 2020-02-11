@@ -20,8 +20,7 @@ class Account:
         return self.add_transaction("withdraw", amount)
       else:
         return "Insufficient Funds"
-    else:
-      return "Invalid Input"
+    return "Invalid Input"
 
   def add_transaction(self, transaction_type, amount):
     today = date.today().strftime("%d/%m/%Y")
@@ -30,8 +29,7 @@ class Account:
       transaction = Transaction(amount, transaction_type)
       self.ledger.append(transaction)
       return transaction
-    else:
-      return "Invalid Input"
+    return "Invalid Input"
 
   def sufficient_funds(self, amount):
     return self.balance - amount >= 0
