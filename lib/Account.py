@@ -1,10 +1,10 @@
 from datetime import date
-from lib.Validator import validate
+from lib.Validator import Validator
 from lib.Transaction import Transaction
 
 class Account:
   def __init__(self, starting_balance = 0):
-    if self.validate(starting_balance):
+    if Validator.validate_number(starting_balance):
       self.starting_balance = starting_balance
     else:
       self.starting_balance = 0
@@ -12,13 +12,13 @@ class Account:
     self.ledger = []
 
   def deposit(self, amount):
-    if self.validate(amount):
+    if Validator.validate_number(amount):
       return self.add_transaction("deposit", amount)
     else:
       return "Invalid Input"
 
   def withdraw(self, amount):
-    if self.validate(amount):
+    if Validator.validate_number(amount):
       if self.sufficient_funds(amount):
         return self.add_transaction("withdraw", amount)
       else:
@@ -26,12 +26,9 @@ class Account:
     else:
       return "Invalid Input"
 
-  def validate(self, amount):
-    return (type(amount) in [int, float] and amount > 0)
-
   def add_transaction(self, transaction_type, amount):
     today = date.today().strftime("%d/%m/%Y")
-    if validate(amount):
+    if Validator.validate_number(amount):
       self.balance += amount
       transaction = Transaction(amount, transaction_type)
       self.ledger.append(transaction)
