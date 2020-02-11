@@ -1,4 +1,6 @@
 from datetime import date
+from lib.Validator import validate
+from lib.Transaction import Transaction
 
 class Account:
   def __init__(self, starting_balance = 0):
@@ -29,12 +31,11 @@ class Account:
 
   def add_transaction(self, transaction_type, amount):
     today = date.today().strftime("%d/%m/%Y")
-    if self.validate(amount):
-      if transaction_type == "withdraw":
-        amount = amount * -1
+    if validate(amount):
       self.balance += amount
-      self.ledger.append([amount, today])
-      return self.ledger
+      transaction = Transaction(amount, transaction_type)
+      self.ledger.append(transaction)
+      return transaction
     else:
       return "Invalid Input"
 
