@@ -8,18 +8,12 @@ class Account:
     self.ledger = []
 
   def deposit(self, amount):
-    if Validate.number(amount):
-      return self.add_transaction("deposit", amount)
-    else:
-      return "Invalid Input"
+    return self.add_transaction("deposit", amount)
 
   def withdraw(self, amount):
-    if Validate.number(amount):
-      if self.sufficient_funds(amount):
-        return self.add_transaction("withdraw", amount)
-      else:
-        return "Insufficient Funds"
-    return "Invalid Input"
+    if self.sufficient_funds(amount):
+      return self.add_transaction("withdraw", amount)
+    return "Insufficient Funds"
 
   def add_transaction(self, transaction_type, amount):
     today = date.today().strftime("%d/%m/%Y")
@@ -32,5 +26,3 @@ class Account:
 
   def sufficient_funds(self, amount):
     return self.balance - amount >= 0
-
-    

@@ -17,7 +17,7 @@ def test_withdrawal_is_a_transaction_object():
 def test_withdraw_with_positive_amount():
   withdrawal = account.withdraw(300)
   assert withdrawal.amount == 300
-  assert withdrawal.date == date.today
+  assert withdrawal.date == date.today()
   assert withdrawal.transaction_type == "withdraw"
 
 def test_withdraw_with_negative_amount():
