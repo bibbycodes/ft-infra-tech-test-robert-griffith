@@ -5,4 +5,4 @@ class Transaction:
   def __init__(self, amount, transaction_type, date = date.today()):
     self.date = date
     self.transaction_type = transaction_type
-    self.amount = amount if Validate.number(amount) else 0
+    self.amount = amount
