@@ -5,7 +5,6 @@ class Validate:
 
   def is_positive(amount):
     amount = Validate.cast_to_number(amount)
-    print(amount)
     return amount > 0
 
   # this could cause issues

@@ -2,6 +2,7 @@ from lib.Statement import Statement
 from lib.Transaction import Transaction
 from datetime import date
 from lib.Account import Account
+# should be mocking date
 
 account_1 = Account()
 account_2 = Account(1000)
@@ -14,7 +15,6 @@ def test_make_headers():
 
 def test_format_transaction_with_deposit():
   deposit = account_1.deposit(500)
-  # should be mocking date
   expected_string = "{} || 500.00 || || 500.00\n".format(today_string)
   assert Statement.format_transaction([deposit, account_1.balance]) == expected_string
 
