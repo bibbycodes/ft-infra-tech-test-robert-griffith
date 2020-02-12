@@ -4,6 +4,7 @@ plugins:
   - serverless-wsgi
 
 custom:
+  tableName: 'transactions-table-${self:provider.stage}'
   wsgi:
     app: app.app # entrypoint is app.app, which means the app object in the app.py module.
     packRequirements: false
@@ -15,6 +16,17 @@ provider:
   runtime: python3.6
   stage: dev
   region: eu-west-2
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+      Resource:
+        - { "Fn::GetAtt": ["UsersDynamoDBTable", "Arn" ] }
+  environment:
+    TRANSACTIONS_TABLE: ${self:custom.tableName}
 
 functions:
   app:
@@ -22,3 +34,29 @@ functions:
     events:
       - http: ANY /
       - http: 'ANY {proxy+}'
+resources:
+  Resources:
+    TransactionsDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: transactionId
+            AttributeType: S
+          -
+            AttributeName: transactionType
+            AttributeType: S
+          -
+            AttributeName: balance
+            AttributeType: N
+          -
+            AttributeName: transactionDate
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: transactionId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.tableName}
