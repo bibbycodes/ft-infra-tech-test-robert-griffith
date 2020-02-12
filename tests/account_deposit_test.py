@@ -29,11 +29,11 @@ def test_deposit_with_string_input():
 def test_deposit_with_array_as_input():
   assert account.deposit([]) == "Invalid Input"
 
-# def test_deposit_with_none_as_input():
-#   assert account.deposit(None) == "Invalid Input"
+def test_deposit_with_none_as_input():
+  assert account.deposit(None) == "Invalid Input"
 
-# # use doubles? test behaviour not state
-# def test_multiple_deposits():
-#   deposit1 = account2.deposit(100)
-#   deposit2 = account2.deposit(200)
-#   assert account2.ledger == [[deposit1, 100], [deposit2, 300]]
+# use doubles? test behaviour not state
+def test_multiple_deposits():
+  deposit1 = account2.deposit(100)
+  deposit2 = account2.deposit(200)
+  assert account2.ledger == [[deposit1, 100], [deposit2, 300]]
