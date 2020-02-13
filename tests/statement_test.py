@@ -1,6 +1,7 @@
 from lib.Statement import Statement
 from lib.Transaction import Transaction
 from datetime import date
+from time import time
 from lib.Account import Account
 # should be mocking date
 
@@ -34,3 +35,17 @@ def test_format_transaction_with_two_withdrawals():
   withdrawal_2 = account_4.withdraw(500)
   expected_string = "date || credit || debit || balance\n{} || || 500.00 || 500.00\n{} || || 500.00 || 0.00".format(today_string, today_string)
   assert Statement.make(account_4) ==  expected_string
+
+def test_make_statement_with_deposits_adn_withdrawals():
+  account = Account()
+  account.deposit(500)
+  account.deposit(500)
+  account.withdraw(600)
+  statement = Statement.make(account)
+  expected_string = "date || credit || debit || balance\n{} || 500.00 || || 500.00\n{} || 500.00 || || 1000.00\n{} || || 600.00 || 400.00\n".format(today_string, today_string, today_string)
+
+
+def test_format_transaction_with_timestamp():
+  epoch = (time())
+  transaction = account_1.add_transaction("deposit", 500, epoch)
+  assert Statement.format_transaction([transaction, account_1.balance]) == "13/02/2020 || 500.00 || || 1000.00\n"

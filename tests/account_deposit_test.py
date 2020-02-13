@@ -1,6 +1,5 @@
 from lib.Account import Account
 from lib.Transaction import Transaction
-# from doubles import InstanceDouble, allow
 from datetime import date
 
 account = Account()
@@ -37,3 +36,13 @@ def test_multiple_deposits():
   deposit1 = account2.deposit(100)
   deposit2 = account2.deposit(200)
   assert account2.ledger == [[deposit1, 100], [deposit2, 300]]
+
+def test_deposit_with_date_with_slashes():
+  account = Account()
+  deposit = account.deposit(500, "10/10/2020")
+  assert deposit.date == "10/10/2020"
+
+def test_deposit_with_date_with_dashes():
+  account = Account()
+  deposit = account.deposit(500, "10-10-2020")
+  assert deposit.date == "10-10-2020"
