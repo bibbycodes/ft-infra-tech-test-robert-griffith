@@ -28,6 +28,9 @@ class Validate:
   # checks length of year is 4
   # checks if all values are numbers
   def check_date_format(date):
+    # checks for timestamp from API
+    if type(date) == float:
+      return "timestamp"
     dashes = date.split("-")
     slashes = date.split('/')
     if Validate.check_array_includes_numbers(dashes) and len(dashes[-1]) == 4:
@@ -51,6 +54,8 @@ class Validate:
       return datetime.strptime(date_string, '%d-%m-%Y')
     elif date_format == "slashes":
       return datetime.strptime(date_string, '%d/%m/%Y')
+    elif date_format == 'timestamp':
+      return date_string
     else:
       return "Invalid date format"
 
