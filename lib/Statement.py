@@ -9,7 +9,9 @@ class Statement:
     items = Statement.format_items(record)
     if record[0].transaction_type == "deposit":
       return "{} || {} || || {}\n".format(items[0], items[1], items[2])
-    return "{} || || {} || {}\n".format(items[0], items[1], items[2])
+    elif record[0].transaction_type == "withdraw":
+      return "{} || || {} || {}\n".format(items[0], items[1], items[2])
+    return "Invalid Transaction Type"
 
   def format_items(record):
     date = record[0].date

@@ -22,13 +22,7 @@ else:
 
 @app.route('/')
 def home():
-  print("Statement")
-  account = Account()
-  account.deposit(500)
-  account.deposit(500)
-  account.withdraw(600)
-  statement = Statement.make(account)
-  return statement
+  return "FT TECH TEST - ROBERT GRIFFITH"
 
 @app.route('/transactions/all')
 def all_transactions():
@@ -51,11 +45,15 @@ def statement():
   transactions = result.get('Items')
   sorted_transactions = sort_transactions_by_timestamp(transactions)
   for record in sorted_transactions:
-    print(record)
-    account.add_transaction(
-      record["transactionType"]['S'],
-      record["transactionAmount"]['N'],
-      float(record["timestamp"]['S'])
+    if record["transactionType"]['S'] == "deposit":
+      account.deposit(
+        record["transactionAmount"]['N'],
+        float(record["timestamp"]['S'])
+      )
+    else:
+      account.withdraw(
+        record["transactionAmount"]['N'],
+        float(record["timestamp"]['S'])
       )
   statement = Statement.make(account)
   return statement
@@ -88,4 +86,4 @@ def add_transaction():
   })
 
 def sort_transactions_by_timestamp(transactions):
-  return (sorted(transactions, key = lambda i: float(i['timestamp']['S'])))
+  return sorted(transactions, key = lambda i: float(i['timestamp']['S']), reverse=True)

@@ -8,3 +8,4 @@ account.deposit(500)
 account.withdraw(600)
 statement = Statement.make(account)
 print(statement)
+
