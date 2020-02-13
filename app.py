@@ -12,13 +12,13 @@ IS_OFFLINE = os.environ.get('IS_OFFLINE')
 
 #switch db depending on envirnment
 if IS_OFFLINE:
-    client = boto3.client(
-        'dynamodb',
-        region_name='localhost',
-        endpoint_url='http://localhost:8000'
-    )
+  client = boto3.client(
+    'dynamodb',
+    region_name='localhost',
+    endpoint_url='http://localhost:8000'
+  )
 else:
-    client = boto3.client('dynamodb')
+  client = boto3.client('dynamodb')
 
 @app.route('/')
 def home():
@@ -30,7 +30,6 @@ def home():
   statement = Statement.make(account)
   return statement
 
-# find by transaction id
 @app.route('/transactions/all')
 def all_transactions():
   result = client.scan(
@@ -51,16 +50,24 @@ def statement():
   )
   transactions = result.get('Items')
   sorted_transactions = sort_transactions_by_timestamp(transactions)
-
-  return jsonify(transactions)
+  for record in sorted_transactions:
+    print(record)
+    account.add_transaction(
+      record["transactionType"]['S'],
+      record["transactionAmount"]['N'],
+      float(record["timestamp"]['S'])
+      )
+  statement = Statement.make(account)
+  return statement
 
 @app.route('/transactions/add', methods=["POST"])
 def add_transaction():
-  transaction_id = str(uuid.uuid4())
   transaction_type = request.json.get('transactionType')
-  timestamp =  str(int(time() * 1000))
-  transaction_amount = request.json.get('transactionAmount')
-  account_balance = request.json.get('accountBalance')
+  # boto3 rejects int types on insertion
+  transaction_id = str(uuid.uuid4())
+  timestamp =  str(time())
+  account_balance = str(request.json.get('accountBalance'))
+  transaction_amount = str(request.json.get('transactionAmount'))
 
   response = client.put_item(
     TableName=TRANSACTIONS_TABLE,
@@ -81,4 +88,4 @@ def add_transaction():
   })
 
 def sort_transactions_by_timestamp(transactions):
-  return (sorted(transactions, key = lambda i: int(i['timestamp']['S'])))
+  return (sorted(transactions, key = lambda i: float(i['timestamp']['S'])))

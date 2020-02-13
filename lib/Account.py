@@ -20,18 +20,18 @@ class Account:
       return "Insufficient Funds"
     return "Invalid Input"
 
-  def add_transaction(self, transaction_type, amount):
-    today = date.today().strftime("%d/%m/%Y")
+  def add_transaction(self, transaction_type, amount, transaction_date=date.today()):
+    print(transaction_date)
+    print(transaction_type)
+    print(amount)
     if Validate.is_number(amount):
       amount = float(amount)
       self.balance += amount
-      transaction = Transaction(amount, transaction_type)
+      transaction = Transaction(amount, transaction_type, transaction_date)
+      print("hello")
       self.ledger.append([transaction, self.balance])
       return transaction
     return "Invalid Input"
 
   def sufficient_funds(self, amount):
     return self.balance - amount >= 0
-
-  def set_balance(balance):
-    self.balance = balance
