@@ -31,7 +31,6 @@ def all_transactions():
     Select='ALL_ATTRIBUTES'
   )
   transactions = result.get('Items')
-  #sort results by timestamp
   sorted_transactions = sort_transactions_by_timestamp(transactions)
   return jsonify(sorted_transactions)
 

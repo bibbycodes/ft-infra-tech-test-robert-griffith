@@ -1,6 +1,14 @@
 from datetime import datetime
 
 class Validate:
+  def check_input(amount, date):
+    is_number = Validate.is_number(amount)
+    is_positive = Validate.is_positive(amount)
+    is_date = Validate.check_date_format(date)
+    if False in [is_number, is_date, is_positive]:
+      return False
+    return True
+  
   def is_number(amount):
     amount = Validate.cast_to_number(amount)
     return (type(amount) in [int, float])
@@ -16,9 +24,12 @@ class Validate:
       return False
   
   # checks if format is dd/mm/yyyy or dd-mm-yyy
-  def check_date_format(date_string):
-    dashes = date_string.split("-")
-    slashes = date_string.split('/')
+  # if already date object, return true
+  # checks length of year is 4
+  # checks if all values are numbers
+  def check_date_format(date):
+    dashes = date.split("-")
+    slashes = date.split('/')
     if Validate.check_array_includes_numbers(dashes) and len(dashes[-1]) == 4:
       return "dashes"
     if Validate.check_array_includes_numbers(slashes) and len(slashes[-1]) == 4:
