@@ -14,18 +14,19 @@ class Validate:
       return float(value)
     except:
       return False
-
+  
+  # checks if format is dd/mm/yyyy or dd-mm-yyy
   def check_date_format(date_string):
     dashes = date_string.split("-")
     slashes = date_string.split('/')
-    if Validate.check_array_includes_numbers(dashes):
+    if Validate.check_array_includes_numbers(dashes) and len(dashes[-1]) == 4:
       return "dashes"
-    if Validate.check_array_includes_numbers(slashes):
+    if Validate.check_array_includes_numbers(slashes) and len(slashes[-1]) == 4:
       return "slashes"
     return False
 
   def check_array_includes_numbers(array):
-    if len(array) < 1:
+    if len(array) < 1 or not len(array) == 3:
       return False
     for item in array:
       is_number = Validate.cast_to_number(item)
@@ -34,7 +35,7 @@ class Validate:
     return True
 
   def cast_to_datetime(date_string):
-    date_format = check_date_format(date_string)
+    date_format = Validate.check_date_format(date_string)
     if date_format == "dashes":
       return datetime.strptime(date_string, '%d-%m-%Y')
     elif date_format == "slashes":
