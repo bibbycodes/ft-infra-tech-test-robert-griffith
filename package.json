@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/bibbycodes/ft-infra-tech-test-robert-griffith#readme",
   "devDependencies": {
+    "serverless-dynamodb-local": "^0.2.39",
     "serverless-python-requirements": "^5.0.1",
     "serverless-wsgi": "^1.7.4"
   }

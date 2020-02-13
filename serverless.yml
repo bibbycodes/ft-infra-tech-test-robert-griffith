@@ -2,6 +2,7 @@ service: serverless-flask
 plugins:
   - serverless-python-requirements
   - serverless-wsgi
+  - serverless-dynamodb-local
 
 custom:
   tableName: 'transactions-table-${self:provider.stage}'
@@ -10,6 +11,12 @@ custom:
     packRequirements: false
   pythonRequirements:
     dockerizePip: non-linux
+  dynamodb:
+    stages:
+      - test
+      - dev
+    start:
+      migrate: true
 
 provider:
   name: aws
@@ -24,13 +31,13 @@ provider:
         - dynamodb:GetItem
         - dynamodb:PutItem
       Resource:
-        - { "Fn::GetAtt": ["UsersDynamoDBTable", "Arn" ] }
+        - { "Fn::GetAtt": ["TransactionsDynamoDBTable", "Arn" ] }
   environment:
     TRANSACTIONS_TABLE: ${self:custom.tableName}
 
 functions:
   app:
-    handler: wsgi.handler
+    handler: wsgi_handler.handler
     events:
       - http: ANY /
       - http: 'ANY {proxy+}'
@@ -44,18 +51,15 @@ resources:
             AttributeName: transactionId
             AttributeType: S
           -
-            AttributeName: transactionType
-            AttributeType: S
-          -
-            AttributeName: balance
-            AttributeType: N
-          -
             AttributeName: transactionDate
             AttributeType: S
         KeySchema:
           -
             AttributeName: transactionId
             KeyType: HASH
+          -
+            AttributeName: transactionDate
+            KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
