@@ -16,11 +16,22 @@ class Validate:
       return False
 
   def check_date_format(date_string):
-    if Validate.cast_to_number(date_string.split("-")[0]):
+    dashes = date_string.split("-")
+    slashes = date_string.split('/')
+    if Validate.check_array_includes_numbers(dashes):
       return "dashes"
-    if Validate.cast_to_number(date_string.split("/")[0]):
+    if Validate.check_array_includes_numbers(slashes):
       return "slashes"
     return False
+
+  def check_array_includes_numbers(array):
+    if len(array) < 1:
+      return False
+    for item in array:
+      is_number = Validate.cast_to_number(item)
+      if not is_number:
+        return False
+    return True
 
   def cast_to_datetime(date_string):
     date_format = check_date_format(date_string)
