@@ -3,6 +3,7 @@ import boto3
 from lib.Account import Account
 from lib.Statement import Statement
 from flask import Flask, jsonify, request
+from time import time
 import uuid
 
 app = Flask(__name__)
@@ -31,39 +32,35 @@ def home():
 
 # find by transaction id
 @app.route('/transactions/all')
-def data():
+def all_transactions():
   result = client.scan(
     TableName=TRANSACTIONS_TABLE,
     Select='ALL_ATTRIBUTES'
   )
-  return result
-  # res = client.get_item(
-  #   TableName=TRANSACTIONS_TABLE,
-  #   Key={
-  #     'transactionDate': {'S', transaction_date }
-  #   }
-  # )
-  # transaction = res.get('Item')
-  # print(transaction)
-  # if not transaction:
-  #   return jsonify({'error: Not Found'}), 404
+  transactions = result.get('Items')
+  #sort results by timestamp
+  sorted_transactions = sort_transactions_by_timestamp(transactions)
+  return jsonify(sorted_transactions)
 
-  # return jsonify({
-  #   'transactionId'     : transaction.get('transactionId'),
-  #   'transactionType'   : transaction.get('transactionType').get('S'),
-  #   'transactionAmount' : transaction.get('transactionAmount'),
-  #   'accountBalance'    : transaction.get('accountBalance'),
-  #   'transactionDate'   : transaction.get('transactionDate')
-  # })
+@app.route('/statement')
+def statement():
+  account = Account()
+  result = client.scan(
+    TableName=TRANSACTIONS_TABLE,
+    Select='ALL_ATTRIBUTES'
+  )
+  transactions = result.get('Items')
+  sorted_transactions = sort_transactions_by_timestamp(transactions)
 
-# withdraw / deposit should only have amount and type in request
+  return jsonify(transactions)
+
 @app.route('/transactions/add', methods=["POST"])
 def add_transaction():
   transaction_id = str(uuid.uuid4())
   transaction_type = request.json.get('transactionType')
-  transaction_date = request.json.get('transactionDate')
-  transaction_amount = str(request.json.get('transactionAmount'))
-  account_balance = str(request.json.get('accountBalance'))
+  timestamp =  str(int(time() * 1000))
+  transaction_amount = request.json.get('transactionAmount')
+  account_balance = request.json.get('accountBalance')
 
   response = client.put_item(
     TableName=TRANSACTIONS_TABLE,
@@ -72,7 +69,7 @@ def add_transaction():
       'transactionType'   : {'S' : transaction_type},
       'transactionAmount' : {'N' : transaction_amount},
       'accountBalance'    : {'N' : account_balance},
-      'transactionDate'   : {'S' : transaction_date}
+      'timestamp'         : {'S' : timestamp}
     }
   )
 
@@ -80,5 +77,8 @@ def add_transaction():
     'transactionType'   : transaction_type,
     'transactionAmount' : transaction_amount,
     'accountBalance'    : account_balance,
-    'transactionDate'   : transaction_date
+    'timestamp'         : timestamp
   })
+
+def sort_transactions_by_timestamp(transactions):
+  return (sorted(transactions, key = lambda i: int(i['timestamp']['S'])))

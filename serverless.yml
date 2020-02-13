@@ -51,14 +51,14 @@ resources:
             AttributeName: transactionId
             AttributeType: S
           -
-            AttributeName: transactionDate
+            AttributeName: timestamp
             AttributeType: S
         KeySchema:
           -
             AttributeName: transactionId
             KeyType: HASH
           -
-            AttributeName: transactionDate
+            AttributeName: timestamp
             KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1
