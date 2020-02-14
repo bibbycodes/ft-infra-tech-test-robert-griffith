@@ -229,4 +229,10 @@ class Statement:
     return (headers + output_string)[:-1]
 ```
 
+## Architecture
+The infrastructure for this app was created using the Serverless framework. While this took some time to learn, it allowed me to specify the elements of the infrastructure in a single file. Deployment is then handled with a single command. This allows you to modify the infrastructure with ease and makes maintaining the infrastructure simple.
+
+The static files are stored in an AWS S3 container. The app is served using an API Gateway and executed within a Lambda function.
+<img src="./graph.png">
+
 
