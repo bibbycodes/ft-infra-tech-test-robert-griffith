@@ -246,7 +246,10 @@ I used travisCI for continuous integration. This meant that before merging branc
 ## Architecture
 The infrastructure for this app was created using the Serverless framework. While this took some time to learn, it allowed me to specify the elements of the infrastructure in a single file. Deployment is then handled with a single command. This allows you to modify the infrastructure with ease and makes maintaining the infrastructure simple.
 
-The static files are stored in an AWS S3 container. The app is served using an API Gateway and executed within a Lambda function. All records are stored in a DynamoDB database.<br>
+The static files are stored in an AWS S3 container. The app is served using an API Gateway and code is executed using a Lambda function. All records are stored in a DynamoDB database.<br>
+
+The API is hosted in the eu-west-2 region (London). I picked London since this is where most people will be accessing the app from.
+The schema for the database is set in the serverless.yml file. I used the transaction ID as the partition key and timestamp as the Sort key so that the records could be sorted by timestamp.
 <img src="./graph.png">
 
 #### Challenges
