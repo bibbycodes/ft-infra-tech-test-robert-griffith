@@ -8,9 +8,15 @@ class Validate:
     if False in [is_number, is_date, is_positive]:
       return False
     return True
-  
+
+  def is_positive_number(number):
+    if not Validate.is_number(number):
+      return "Input Must Be A Number"
+    if not Validate.is_positive(number):
+      return "Input Must be Positive"
+    return True
+
   def is_number(amount):
-    amount = Validate.cast_to_number(amount)
     return (type(amount) in [int, float])
 
   def is_positive(amount):
@@ -27,6 +33,7 @@ class Validate:
   # if already date object, return true
   # checks length of year is 4
   # checks if all values are numbers
+  # change to validate using regex if you have time
   def check_date_format(date):
     # checks for timestamp from API
     if type(date) == float:
@@ -55,7 +62,7 @@ class Validate:
     elif date_format == "slashes":
       return datetime.strptime(date_string, '%d/%m/%Y')
     elif date_format == 'timestamp':
-      return date_string
+      return datetime.fromtimestamp(date_string)
     else:
       return "Invalid date format"
 

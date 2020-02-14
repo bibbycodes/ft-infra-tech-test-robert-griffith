@@ -11,7 +11,7 @@ def test_is_number_with_float():
   assert Validate.is_number(1.0) == True
 
 def test_is_number_with_string_representation():
-  assert Validate.is_number("0") == True
+  assert Validate.is_number("0") == False
 
 def test_is_number_with_empty_string():
   assert Validate.is_number("") == False
