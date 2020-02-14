@@ -229,10 +229,24 @@ class Statement:
     return (headers + output_string)[:-1]
 ```
 
+## CI
+
 ## Architecture
 The infrastructure for this app was created using the Serverless framework. While this took some time to learn, it allowed me to specify the elements of the infrastructure in a single file. Deployment is then handled with a single command. This allows you to modify the infrastructure with ease and makes maintaining the infrastructure simple.
 
-The static files are stored in an AWS S3 container. The app is served using an API Gateway and executed within a Lambda function.
+The static files are stored in an AWS S3 container. The app is served using an API Gateway and executed within a Lambda function. All records are stored in a DynamoDB database
 <img src="./graph.png">
+
+#### Challenges
+
+I faced numerous challenges while building this serverless app. Chief among them was having to learn so many new technologies in such a short timespan. Other than making Object Oriented Programs in python, almost everything else was new. I had never used flask before, AWS is brand new to me and Serverless is a framework I had never heard about before.
+
+Another challenge was dealing with DynamoDB. DynamoDB is a noSQL database that uses a hash function to organise data accross partitions. This means that data is not necesarilly stored in the order in which it is inputed. In order to combat this I stored the dates in the database as timestamps which would theoretically allow me to order the records based on when they were entered. I used the boto3 client to interact with the database and stored each records ID as a UUID ensureing that records cannot be overwrriten by accident.
+
+I also faced issues storing numbers in the database, the boto3 client was rejecting int and float values which meant that they had to be converted into string values going into the database and back to number values when coming out. This was not ideal and if I had more time I would have liked to conduct more research into this issue. 
+
+I also would have probably used mongoDB instead of DynamoDB, given more time. Since the records are essentially a time series, a noSQL structure makes sense. MongoDB would have allowed me to sort values in the database by any of the attributes and this would have made more sense in hindsight.
+
+
 
 
