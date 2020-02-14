@@ -243,7 +243,7 @@ class Statement:
 ```
 
 #### Continuous Integration
-I used Travis CI for continuous integration. This meant that I was confident that all tests were passing and that the branch was safe to merge.
+I used Travis CI for continuous integration. This meant that I was confident that all tests were passing and that branches were safe to merge.
 
 ## Architecture
 The infrastructure for this app was created using the Serverless framework. While this took some time to learn, it allowed me to specify the elements of the infrastructure in a single file. Deployment is handled with a single command. This allows you to modify and maintain the infrastructure with ease.
