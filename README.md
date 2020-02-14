@@ -46,7 +46,7 @@ In the second terminal enter:
 You should now be able to visit `http://localhost:5000` and access the API.
 
 #### Deploying to AWS
-To deply to AWS you simply type in the following command:
+To deploy to AWS you simply type in the following command:
 `sls deploy`
 
 This will deploy the infrastructure configuration that is specified in serverless.yml and provide you with a URL endpoint from which you can access the API.
@@ -151,8 +151,8 @@ This solution was developed using TDD and SOLID principles. The first step was t
 
 #### Account Class
 
-Initially the Account class was made up of 4 functions: `deposit`, `withdraw`, `add_transaction` and `sufficient_funds`.
-I noticed that the deposit and withdraw functions were very similar. As a result I decided to merge them into the add_transaction class. This made the code DRY and easier to maintain. The input is validated using the Validate Class.
+Initially, the Account class was made up of 4 functions: `deposit`, `withdraw`, `add_transaction` and `sufficient_funds`.
+I noticed that the deposit and withdraw functions were very similar. As a result, I decided to merge them into the add_transaction class. This made the code DRY and easier to maintain. The input is validated using the Validate Class.
 
 ```python
 class Account:
@@ -192,7 +192,7 @@ class Transaction:
 ```
 
 #### Validate Class
-This class was made specifically to Validate input. Initially input validation was integrated into each models but as they grew it made sense to extract these functions into the Validate class. I did my best to make the functions semantic in order to make it more readable.
+This class was made specifically to Validate input. Initially, input validation was integrated into each model but as they grew it made sense to extract these functions into the Validate class. I ensured that the functions were named semantically to make the code more readable.
 
 ```python
 Validate.is_positive_number(20) # => True
@@ -200,7 +200,7 @@ Validate.date_format("10-10-2020") # => True
 Validate.date_format("10.10.2020") # => False
 ```
 
-If I had more time I would have spent a bit more time refactoring some of the functions in this class and I would have used regex to check that the date input was valid. This would have been a more efficient use of code in my opinion.
+If I had more time I would have refactored some of the functions in this class. It would have been good to use regex to check data input was valid. This would have been a more efficient use of code.
 
 #### Statement Class
 This class returns a statement when passed an account object: <br>
@@ -241,46 +241,46 @@ class Statement:
 ```
 
 #### Continuous Integration
-I used travisCI for continuous integration. This meant that before merging branches I was confident that all tests were passing and the codde was safe to merge to master.
+I used Travis CI for continuous integration. This meant that I was confident that all tests were passing and that the branch was safe to merge.
 
 ## Architecture
-The infrastructure for this app was created using the Serverless framework. While this took some time to learn, it allowed me to specify the elements of the infrastructure in a single file. Deployment is then handled with a single command. This allows you to modify the infrastructure with ease and makes maintaining the infrastructure simple.
+The infrastructure for this app was created using the Serverless framework. While this took some time to learn, it allowed me to specify the elements of the infrastructure in a single file. Deployment is handled with a single command. This allows you to modify and maintain the infrastructure with ease.
 
-The static files are stored in an AWS S3 container. The app is served using an API Gateway and code is executed using a Lambda function. All records are stored in a DynamoDB database.<br>
+The static files are stored in an AWS S3 container. The app is served using an API Gateway and code is executed using a Lambda function. Records can be stored in a DynamoDB database.<br>
 
-The API is hosted in the eu-west-2 region (London). I picked London since this is where most people will be accessing the app from. If I had more time Inwould have looked into deploying to multiple regions so that if one was to go down, the app would still be accessible through the other regions.
+The API is hosted in the eu-west-2 region (London). I picked London since this is where most people will be accessing the app from. If I had more time I would have looked into deploying to multiple regions so that if one were to go down, the app would still be accessible.
 
-The schema for the database is set in the serverless.yml file. I used the transaction ID as the partition key and timestamp as the Sort key so that the records could be sorted by timestamp. I purposefully ommited DeleteItem as an action for the DB as deleting bank account records would likely not be premitted in a real life situation.
+The schema keys for the database are specified in the serverless.yml file. I used the transaction ID as the partition key and timestamp as the Sort key so that the records could be sorted by timestamp. I purposefully omitted DeleteItem as an action for the DB since deleting bank account records would likely not be permitted in a real-life situation.
 
 I also set up the app to be deployed locally on localhost. This enabled testing and increased development speed.
 <img src="./graph.png">
 
 #### Challenges
 
-I faced numerous challenges while building this serverless app. Chief among them was having to learn so many new technologies in such a short timespan. Other than making Object Oriented Programs in python, almost everything else was new. I had never used flask before, AWS is brand new to me and Serverless is a framework I had never heard about before.
+I faced numerous challenges while building this serverless app. Chief among them was having to learn so many new technologies in such a short timespan. Other than making object-oriented programs in python, almost everything else was new.
 
-Another challenge was dealing with DynamoDB. DynamoDB is a noSQL database that uses a hash function to organise data accross partitions. This means that data is not necesarilly stored in the order in which it is inputed. In order to combat this I stored the dates in the database as timestamps which would theoretically allow me to order the records based on when they were entered. I used the boto3 client to interact with the database and stored each of the record ID's as a UUID ensuring that records have a unique ID.
+Another challenge was dealing with DynamoDB. DynamoDB is a noSQL database that uses a hash function to organise data across partitions. This means that data is not necessarily stored in the order in which it is inputted. To combat this, I stored the dates in the database as timestamps. This would theoretically allow me to order the records based on when they were entered. I used the boto3 client to interact with the database and stored each of the record ID's as a UUID to ensure that records were unique.
 
 I also faced issues storing numbers in the database, the boto3 client was rejecting int and float values which meant that they had to be converted into string values going into the database and back to number values when coming out. This was not ideal and if I had more time I would have liked to conduct more research into this issue. 
 
-I also would have probably used mongoDB instead of DynamoDB given more time. Since the records are essentially a time series, a noSQL structure makes sense, however MongoDB would have also allowed me to sort values in the database by any of the attributes and this would have made more sense in hindsight.
+I also would have probably used mongoDB instead of DynamoDB given more time. Since the records are essentially a time series, a noSQL structure makes sense. MongoDB however, would have also allowed me to sort values in the database by any of the attributes and this would have made more sense in hindsight.
 
 ## Extending
 
-There are several ways in which one could enhance / extend this solution given more time. 
+There are several ways in which one could enhance/extend this solution. 
 
 - Access Management: 
-As it stands, the IAM user I am using has Admin privilidges and while this works, I could have limited access privilidges more.
+As it stands, the IAM user I am using has admin privileges and while this works, I could have limited access privileges more.
 
 - More input Validation:
 Right now, you can add transactions with an invalid transaction type, this should raise an error.
 
 - Withdrawals with the API:
-The Api does not currently protect against makeing withdrawals when there is not enough money in the account. As it stands, you can add transactions to the API but it does not validate the balance.
+The API does not currently protect against making withdrawals when there is not enough money in the account. As it stands, you can add transactions to the API but it does not validate the balance.
 
 - Monitoring: 
 This would allow one to be aware of issues with the AWS servers should they arise.
 
 - Continuous deployment: 
-This would have been useful since the app would never be deployed without running tests first. This wasn't a mojor issue in the end since serverless makes it so easy to deploy the app.
+This would have been useful since the app would never be deployed without running tests first. This wasn't a major issue in the end since serverless makes it so easy to deploy the app.
 
