@@ -4,16 +4,16 @@ class Validate:
   def check_input(amount, date):
     is_number = Validate.is_number(amount)
     is_positive = Validate.is_positive(amount)
-    is_date = Validate.check_date_format(date)
+    is_date = Validate.date_format(date)
     if False in [is_number, is_date, is_positive]:
       return False
     return True
 
   def is_positive_number(number):
     if not Validate.is_number(number):
-      return "Input Must Be A Number"
+      return False
     if not Validate.is_positive(number):
-      return "Input Must be Positive"
+      return False
     return True
 
   def is_number(amount):
@@ -34,7 +34,7 @@ class Validate:
   # checks length of year is 4
   # checks if all values are numbers
   # change to validate using regex if you have time
-  def check_date_format(date):
+  def date_format(date):
     if type(date) == float:
       return "timestamp"
     dashes = date.split("-")
@@ -65,7 +65,7 @@ class Validate:
     return False
 
   def cast_to_datetime(date_string):
-    date_format = Validate.check_date_format(date_string)
+    date_format = Validate.date_format(date_string)
     if date_format == "dashes":
       return datetime.strptime(date_string, '%d-%m-%Y')
     elif date_format == "slashes":

@@ -1,4 +1,4 @@
-# record[0] => transaction, record[1] => current_balance
+# record[0] = transaction, record[1] = current_balance
 from datetime import datetime
 
 class Statement:

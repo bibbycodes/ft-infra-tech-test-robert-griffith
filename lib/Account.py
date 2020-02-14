@@ -10,7 +10,7 @@ class Account:
   def add_transaction(self, transaction_type, amount, transaction_date=datetime.today()):
     if not transaction_date is self.add_transaction.__defaults__[0]:
       transaction_date = Validate.cast_to_datetime(transaction_date)
-    if Validate.is_positive_number(amount) == True:
+    if Validate.is_positive_number(amount):
       if transaction_type == "withdraw":
         if self.sufficient_funds(amount):
           amount = float(amount) * -1

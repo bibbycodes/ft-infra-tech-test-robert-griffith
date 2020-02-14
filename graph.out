@@ -1,0 +1,32 @@
+digraph "The AWS CloudFormation template for this Serverless application" {
+rankdir=LR
+labeljust=l;
+node [shape=box];
+"ServerlessDeploymentBucket" ["label" = < <table border="0" cellborder="0"><tr><td fixedsize="true" width="30" height="30"><img src="/Users/bibbycodes/Documents/Code/Makers/ft/ft-test/node_modules/cloudformation-graph/lib/icons/storage_amazons3_bucket.png"/></td><td>ServerlessDeploymentBucket</td></tr></table> >];
+"ServerlessDeploymentBucketPolicy" ["label" = < <table border="0" cellborder="0"><tr><td fixedsize="true" width="30" height="30"><img src="/Users/bibbycodes/Documents/Code/Makers/ft/ft-test/node_modules/cloudformation-graph/lib/icons/storage_amazons3_bucket.png"/></td><td>ServerlessDeploymentBucketPolicy</td></tr></table> >];
+"AppLogGroup" ["label" = < <table border="0" cellborder="0"><tr><td fixedsize="true" width="30" height="30"><img src="/Users/bibbycodes/Documents/Code/Makers/ft/ft-test/node_modules/cloudformation-graph/lib/icons/managementtools_amazoncloudwatch.png"/></td><td>AppLogGroup</td></tr></table> >];
+"IamRoleLambdaExecution" ["label" = < <table border="0" cellborder="0"><tr><td fixedsize="true" width="30" height="30"><img src="/Users/bibbycodes/Documents/Code/Makers/ft/ft-test/node_modules/cloudformation-graph/lib/icons/securityidentitycompliance_iam_role.png"/></td><td>IamRoleLambdaExecution</td></tr></table> >];
+"AppLambdaFunction" ["label" = < <table border="0" cellborder="0"><tr><td fixedsize="true" width="30" height="30"><img src="/Users/bibbycodes/Documents/Code/Makers/ft/ft-test/node_modules/cloudformation-graph/lib/icons/compute_awslambda_lambdafunction.png"/></td><td>AppLambdaFunction</td></tr></table> >];
+"AppLambdaVersionWANow5UIJv6hZuxKZSftUtKK3s5GrXbaGKuK9g7s" ["label" = < <table border="0" cellborder="0"><tr><td fixedsize="true" width="30" height="30"><img src="/Users/bibbycodes/Documents/Code/Makers/ft/ft-test/node_modules/cloudformation-graph/lib/icons/compute_awslambda_lambdafunction.png"/></td><td>AppLambdaVersionWANow5UIJv6hZuxKZSftUtKK3s5GrXbaGKuK9g7s</td></tr></table> >];
+"ApiGatewayRestApi" ["label" = < <table border="0" cellborder="0"><tr><td fixedsize="true" width="30" height="30"><img src="/Users/bibbycodes/Documents/Code/Makers/ft/ft-test/node_modules/cloudformation-graph/lib/icons/applicationservices_amazonapigateway.png"/></td><td>ApiGatewayRestApi</td></tr></table> >];
+"ApiGatewayResourceProxyVar" ["label" = < <table border="0" cellborder="0"><tr><td fixedsize="true" width="30" height="30"><img src="/Users/bibbycodes/Documents/Code/Makers/ft/ft-test/node_modules/cloudformation-graph/lib/icons/applicationservices_amazonapigateway.png"/></td><td>ApiGatewayResourceProxyVar</td></tr></table> >];
+"ApiGatewayMethodAny" ["label" = < <table border="0" cellborder="0"><tr><td fixedsize="true" width="30" height="30"><img src="/Users/bibbycodes/Documents/Code/Makers/ft/ft-test/node_modules/cloudformation-graph/lib/icons/applicationservices_amazonapigateway.png"/></td><td>ApiGatewayMethodAny</td></tr></table> >];
+"ApiGatewayMethodProxyVarAny" ["label" = < <table border="0" cellborder="0"><tr><td fixedsize="true" width="30" height="30"><img src="/Users/bibbycodes/Documents/Code/Makers/ft/ft-test/node_modules/cloudformation-graph/lib/icons/applicationservices_amazonapigateway.png"/></td><td>ApiGatewayMethodProxyVarAny</td></tr></table> >];
+"ApiGatewayDeployment1581694007879" ["label" = < <table border="0" cellborder="0"><tr><td fixedsize="true" width="30" height="30"><img src="/Users/bibbycodes/Documents/Code/Makers/ft/ft-test/node_modules/cloudformation-graph/lib/icons/applicationservices_amazonapigateway.png"/></td><td>ApiGatewayDeployment1581694007879</td></tr></table> >];
+"AppLambdaPermissionApiGateway" ["label" = < <table border="0" cellborder="0"><tr><td fixedsize="true" width="30" height="30"><img src="/Users/bibbycodes/Documents/Code/Makers/ft/ft-test/node_modules/cloudformation-graph/lib/icons/compute_awslambda_lambdafunction.png"/></td><td>AppLambdaPermissionApiGateway</td></tr></table> >];
+"TransactionsDynamoDBTable" ["label" = < <table border="0" cellborder="0"><tr><td fixedsize="true" width="30" height="30"><img src="/Users/bibbycodes/Documents/Code/Makers/ft/ft-test/node_modules/cloudformation-graph/lib/icons/database_amazondynamodb_table.png"/></td><td>TransactionsDynamoDBTable</td></tr></table> >];
+"ServerlessDeploymentBucket" -> "ServerlessDeploymentBucketPolicy" [dir=back];
+"TransactionsDynamoDBTable" -> "IamRoleLambdaExecution" [dir=back];
+"ServerlessDeploymentBucket" -> "AppLambdaFunction" [dir=back];
+"IamRoleLambdaExecution" -> "AppLambdaFunction" [dir=back];
+"AppLambdaFunction" -> "AppLambdaVersionWANow5UIJv6hZuxKZSftUtKK3s5GrXbaGKuK9g7s" [dir=back];
+"ApiGatewayRestApi" -> "ApiGatewayResourceProxyVar" [dir=back];
+"ApiGatewayRestApi" -> "ApiGatewayMethodAny" [dir=back];
+"AppLambdaFunction" -> "ApiGatewayMethodAny" [dir=back];
+"ApiGatewayResourceProxyVar" -> "ApiGatewayMethodProxyVarAny" [dir=back];
+"ApiGatewayRestApi" -> "ApiGatewayMethodProxyVarAny" [dir=back];
+"AppLambdaFunction" -> "ApiGatewayMethodProxyVarAny" [dir=back];
+"ApiGatewayRestApi" -> "ApiGatewayDeployment1581694007879" [dir=back];
+"AppLambdaFunction" -> "AppLambdaPermissionApiGateway" [dir=back];
+"ApiGatewayRestApi" -> "AppLambdaPermissionApiGateway" [dir=back];
+}

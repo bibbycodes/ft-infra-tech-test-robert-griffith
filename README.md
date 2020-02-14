@@ -110,4 +110,123 @@ The API portion of this solution represents a single account. You can deposit an
 
 When adding transactions you must supply the transaction type and amount.
 
+#### Tests
+
+To run the tests simply enter `npm run test` into the console. This will provide a detailed overview of all the tests and show coverage. Please ensure that you have activated the virtual environment before runnning tests.
+
+```shell
+---------- coverage: platform darwin, python 3.7.4-final-0 -----------
+Name                                                                 Stmts   Miss  Cover
+----------------------------------------------------------------------------------------
+tests/account_deposit_test.py                                           34      0   100%
+tests/account_init_test.py                                              13      0   100%
+tests/account_withdrawal_test.py                                        32      1    97%
+tests/features/add_transaction_deposit_test.py                           7      0   100%
+tests/features/add_transaction_withdraw_insufficient_funds_test.py       4      0   100%
+tests/features/add_transaction_withdraw_test.py                          7      0   100%
+tests/features/statement_no_date_feature_test.py                         9      0   100%
+tests/features/statement_with_date_input_test.py                        14      0   100%
+tests/statement_test.py                                                 41      0   100%
+tests/validate_test.py                                                  42      0   100%
+----------------------------------------------------------------------------------------
+TOTAL                                                                  203      1    99%
+
+
+=============================================== 47 passed in 7.11s ================================================
+```
 ## Process
+
+This app was created using TDD and SOLID principles. The first step was to create the models.
+
+#### Account Class
+
+Initially the Account class was made up of 4 functions: `deposit`, `withdraw`, `add_transaction` and `sufficient_funds`.
+I noticed that the deposit and withdraw functions were very similar. As a result I decided to merge them into the add_transaction class. This made the code much more DRY and easier to maintain. The input is validated using the Validate Class.
+
+```python
+class Account:
+  def __init__(self, start_bal = 0):
+    self.balance = start_bal if Validate.is_number(start_bal) else 0
+    self.ledger = []
+
+  def add_transaction(self, transaction_type, amount, transaction_date=datetime.today()):
+    if not transaction_date is self.add_transaction.__defaults__[0]:
+      transaction_date = Validate.cast_to_datetime(transaction_date)
+    if Validate.is_positive_number(amount) == True:
+      if transaction_type == "withdraw":
+        if self.sufficient_funds(amount):
+          amount = float(amount) * -1
+        else:
+          return "Insufficient Funds"
+      amount = float(amount)
+      self.balance += amount
+      transaction = Transaction(amount, transaction_type, transaction_date)
+      self.ledger.append([transaction, self.balance])
+      return transaction
+    return "Invalid Input"
+
+  def sufficient_funds(self, amount):
+    return self.balance - amount >= 0
+```
+
+#### Transaction Class
+
+The Transaction class simply consists of attributes representing the date the transaction was made, the transaction type and amount of money being handled. While this could have easily been handled using a python dictionary, extracting these elements into a class makes it easier to extend functionality should one choose to do so.
+```python
+class Transaction:
+  def __init__(self, amount, transaction_type, date):
+    self.date = date
+    self.transaction_type = transaction_type
+    self.amount = amount
+```
+
+#### Validate Class
+This class was made specifically to Validate input. Initially input validation was implemented in the other models but as they grew it made sense to extract these functions into the Validate class. I did my best to make the functions semantic in order to make it more readable.
+
+```python
+Validate.is_positive_number(20) # => True
+Validate.date_format("10-10-2020") # => True
+Validate.date_format("10.10.2020") # => False
+```
+
+If I had more time I would have spent a bit more time refactoring some of the functions in this class and I would have used regex to check that the date input was valid. This would have been a more efficient use of code in my opinion.
+
+#### Statement Class
+This class returns a statement when passed an account object: <br>
+It is comprised of 3 functions: <br>
+  `headers()` returns the headers of the Statement. <br>
+  `format_transaction(record)` formats a single transaction. <br>
+  `format_items(record)` ensures that numbers are returned to 2 decimal places <br>
+  `make(account)` returns a complete statement as a string. <br>
+
+```python
+class Statement:
+  def headers():
+    return 'date || credit || debit || balance\n'
+
+  def format_transaction(record):
+    items = Statement.format_items(record)
+    if record[0].transaction_type == "deposit":
+      return "{} || {} || || {}\n".format(items[0], items[1], items[2])
+    elif record[0].transaction_type == "withdraw":
+      return "{} || || {} || {}\n".format(items[0], items[1], items[2])
+    return "Invalid Transaction Type"
+
+  def format_items(record):
+    date = record[0].date
+    if type(date) == float:
+      date = datetime.fromtimestamp(date)
+    date = date.strftime("%d/%m/%Y")
+    amount = ('%.2f' % abs(record[0].amount))
+    balance = ('%.2f' % record[1])
+    return [date, amount, balance]
+
+  def make(account):
+    headers = Statement.headers()
+    output_string = ""
+    for record in account.ledger:
+      output_string += Statement.format_transaction(record)
+    return (headers + output_string)[:-1]
+```
+
+

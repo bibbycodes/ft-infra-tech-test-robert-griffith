@@ -3,6 +3,7 @@ plugins:
   - serverless-python-requirements
   - serverless-wsgi
   - serverless-dynamodb-local
+  - serverless-graph
 
 custom:
   tableName: 'transactions-table-${self:provider.stage}'

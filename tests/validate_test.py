@@ -37,11 +37,11 @@ def test_is_positive_with_float():
 def test_is_positive_with_string():
   assert Validate.is_positive("hello") == False
 
-def test_check_date_format_with_slashes():
-  assert Validate.check_date_format("10/10/2020") == "slashes"
+def test_date_format_with_slashes():
+  assert Validate.date_format("10/10/2020") == "slashes"
 
-def test_check_date_format_with_dashes():
-  assert Validate.check_date_format("10-10-2020") == "dashes"
+def test_date_format_with_dashes():
+  assert Validate.date_format("10-10-2020") == "dashes"
 
 def test_cast_to_datetime_with_valid_input_slashes():
   date = Validate.cast_to_datetime("10/10/2020")
