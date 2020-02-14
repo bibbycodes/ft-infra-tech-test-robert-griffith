@@ -61,7 +61,7 @@ class Validate:
     elif date_format == "slashes":
       return datetime.strptime(date_string, '%d/%m/%Y')
     elif date_format == 'timestamp':
-      return date_string
+      return datetime.fromtimestamp(date_string)
     else:
       return "Invalid date format"
 
