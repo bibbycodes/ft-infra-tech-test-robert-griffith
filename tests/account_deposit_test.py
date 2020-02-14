@@ -1,10 +1,10 @@
 from lib.Account import Account
 from lib.Transaction import Transaction
-from datetime import date
+from datetime import datetime
 
 account = Account()
 account2 = Account()
-today = date.today().strftime("%d/%m/%Y")
+today = datetime.today().strftime("%d/%m/%Y")
 
 def test_deposit_with_zero_amount():
   assert account.deposit(0) == "Invalid Input"
@@ -40,9 +40,9 @@ def test_multiple_deposits():
 def test_deposit_with_date_with_slashes():
   account = Account()
   deposit = account.deposit(500, "10/10/2020")
-  assert deposit.date == "10/10/2020"
+  assert deposit.date == datetime.strptime("10/10/2020", '%d/%m/%Y')
 
 def test_deposit_with_date_with_dashes():
   account = Account()
   deposit = account.deposit(500, "10-10-2020")
-  assert deposit.date == "10-10-2020"
+  assert deposit.date == datetime.strptime("10-10-2020", '%d-%m-%Y')

@@ -50,10 +50,14 @@ def statement():
         float(record["timestamp"]['S'])
       )
     else:
-      account.withdraw(
+      print("Withdraw")
+      withdraw = account.withdraw(
         record["transactionAmount"]['N'],
         float(record["timestamp"]['S'])
       )
+      print(withdraw)
+  print(account.ledger[0][0].date)
+  # print(type(sorted_transactions[0]['timestamp']['S']))
   statement = Statement.make(account)
   return statement
 
