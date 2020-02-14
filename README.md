@@ -46,10 +46,10 @@ In the second terminal enter:
 You should now be able to visit `http://localhost:5000` and access the API.
 
 #### Deploying to AWS
-To deploy to AWS you simply type in the following command:
+To deploy to AWS, simply enter:<br>
 `sls deploy`
 
-This will deploy the infrastructure configuration that is specified in serverless.yml and provide you with a URL endpoint from which you can access the API.
+This will deploy the infrastructure based on the configuration that is specified in serverless.yml and provide you with a URL endpoint from which you can access the API.
 
 ## Usage
 First activate the virtual environment and enter the python REPL:
