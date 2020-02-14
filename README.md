@@ -1,5 +1,4 @@
-<img src="https://travis-ci.com/bibbycodes/ft-infra-tech-test-robert-griffith.svg?token=GtuEshpCkADdwz3Mtzd1&branch=master">
-<a href="https://5qg61tzcae.execute-api.eu-west-2.amazonaws.com/dev">API ENDPOINT<a>
+
 
 <h1 align=center>Robert Griffith - FT Cloud Engineer Tech Test Solution</h1>
 
@@ -13,7 +12,8 @@
 [Extending](#extending)
 
 </div>
-
+<img src="https://travis-ci.com/bibbycodes/ft-infra-tech-test-robert-griffith.svg?token=GtuEshpCkADdwz3Mtzd1&branch=master">
+<a href="https://5qg61tzcae.execute-api.eu-west-2.amazonaws.com/dev">API ENDPOINT<a>
 ## Setup
 To interact with all aspects of this code you must have an AWS account and credentials must be supplied. To check if you have credentials stored on your computer type in the following command into the terminal.
 `cat ~/.aws/credentials`
