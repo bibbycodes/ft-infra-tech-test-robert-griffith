@@ -99,7 +99,7 @@ date || credit || debit || balance
 15/10/2020 || 800.00 || || 1600.00
 ```
 
-It is assumed that the transactions are added in chronological order.
+The transactions must be entered in chronological order for the statement to print correctly.
 
 #### API
 The API portion of this solution represents a single account. You can deposit and withdraw money, return a json file containing all transactions and have a statement returned through the following 3 endpoints:
