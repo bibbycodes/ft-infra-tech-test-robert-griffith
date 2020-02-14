@@ -14,7 +14,7 @@
 </div>
 <img src="https://travis-ci.com/bibbycodes/ft-infra-tech-test-robert-griffith.svg?token=GtuEshpCkADdwz3Mtzd1&branch=master">
 
-URL:
+Deployed Version:
 <a href="https://5qg61tzcae.execute-api.eu-west-2.amazonaws.com/dev">https://5qg61tzcae.execute-api.eu-west-2.amazonaws.com/dev<a>
   
 ## Setup
