@@ -13,6 +13,8 @@
 
 </div>
 <img src="https://travis-ci.com/bibbycodes/ft-infra-tech-test-robert-griffith.svg?token=GtuEshpCkADdwz3Mtzd1&branch=master">
+
+URL:
 <a href="https://5qg61tzcae.execute-api.eu-west-2.amazonaws.com/dev">https://5qg61tzcae.execute-api.eu-west-2.amazonaws.com/dev<a>
   
 ## Setup
@@ -253,8 +255,11 @@ The API is hosted in the eu-west-2 region (London). I picked London since this i
 The schema keys for the database are specified in the serverless.yml file. I used the transaction ID as the partition key and timestamp as the Sort key so that the records could be sorted by timestamp. I purposefully omitted DeleteItem as an action for the DB since deleting bank account records would likely not be permitted in a real-life situation.
 
 I also set up the app to be deployed locally on localhost. This enabled testing and increased development speed.
-<img src="./graph.png">
 
+Below is a map of how the infrastructure is set up.:
+<br>
+<img src="./graph.png">
+<br>
 #### Challenges
 
 I faced numerous challenges while building this serverless app. Chief among them was having to learn so many new technologies in such a short timespan. Other than making object-oriented programs in python, almost everything else was new.
