@@ -248,8 +248,11 @@ The infrastructure for this app was created using the Serverless framework. Whil
 
 The static files are stored in an AWS S3 container. The app is served using an API Gateway and code is executed using a Lambda function. All records are stored in a DynamoDB database.<br>
 
-The API is hosted in the eu-west-2 region (London). I picked London since this is where most people will be accessing the app from.
-The schema for the database is set in the serverless.yml file. I used the transaction ID as the partition key and timestamp as the Sort key so that the records could be sorted by timestamp.
+The API is hosted in the eu-west-2 region (London). I picked London since this is where most people will be accessing the app from. If I had more time Inwould have looked into deploying to multiple regions so that if one was to go down, the app would still be accessible through the other regions.
+
+The schema for the database is set in the serverless.yml file. I used the transaction ID as the partition key and timestamp as the Sort key so that the records could be sorted by timestamp. I purposefully ommited DeleteItem as an action for the DB as deleting bank account records would likely not be premitted in a real life situation.
+
+I also set up the app to be deployed locally on localhost. This enabled testing and increased development speed.
 <img src="./graph.png">
 
 #### Challenges
@@ -271,5 +274,8 @@ There are several ways in which I would enhance / extend this solution given mor
 - I would also perform more input validation. Right now, you can add transactions with an invalid transaction type.
 
 - I would have also like to make sure that you cannot add withdrawals through the API if there is not enough money in the account. As it stands, you can add transactions to the API but it does not validate the balance.
-- If i had more time to research, I would have also added monitoring for each endpoint. This would allow one to be aware of issues with AWS should they arrise.
+
+- If I had more time to research, I would have also added monitoring for each endpoint. This would allow one to be aware of issues with AWS should they arise.
+
+- Lastly I would have liked to setup continuous deployment. This would have been useful since the app would never be deployed without running tests first. This wasn't a mojor issue in the end since serverless makes it so easy to deploy the app.
 
