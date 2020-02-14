@@ -16,7 +16,7 @@
 </div>
 
 ## Setup
-To fully use this code you must have an AWS account and credentials must be supplied. To check if you have credentials stored on your computer type in the following command into the terminal.
+To interact with all aspects of this code you must have an AWS account and credentials must be supplied. To check if you have credentials stored on your computer type in the following command into the terminal.
 `cat ~/.aws/credentials`
 
 If the credentials are not present, make sure you set up an AIM user and save your credentials in the following format:
@@ -27,13 +27,13 @@ aws_access_key_id = <YOUR_ACCESS_KEY>
 aws_secret_access_key = <YOUR_SECRET_KEY>
 ```
 
-Next you should clone this repo and change into the resulting directory.
-Now you can start installing packages and setting up the virtual environment.
+Clone this repo and cd into the resulting directory.
+Install packages and set up the virtual environment.
 
 `npm install` <br>
 `pip install -r requirements.txt` <br>
 
-You must also install the sdynamoDB locally:
+Install DynamoDB locally:
 `sls dynamodb install`
 
 #### Running The Api Locally
@@ -46,10 +46,10 @@ In the second terminal enter:
 You should now be able to visit `http://localhost:5000` and access the API.
 
 #### Deploying to AWS
-In order to deply to AWS you simply type in the following command:
+To deply to AWS you simply type in the following command:
 `sls deploy`
 
-This will deploy the database and static files to aws and provide you with a URL endpoint from which you can access the API.
+This will deploy the infrastructure configuration that is specified in serverless.yml and provide you with a URL endpoint from which you can access the API.
 
 ## Usage
 First activate the virtual environment and enter the python REPL:
@@ -97,10 +97,10 @@ date || credit || debit || balance
 15/10/2020 || 800.00 || || 1600.00
 ```
 
-Please note that when supplying dates for each transaction it is assumed that these are added in order.
+It is assumed that the transactions are added in chronological order.
 
 #### API
-The API portion of this solution represents a single account. You can deposit and withdraw money as well as get a json file of all transaction and have a statement returned through the following 3 endpoints:
+The API portion of this solution represents a single account. You can deposit and withdraw money, return a json file containing all transactions and have a statement returned through the following 3 endpoints:
 
 `POST /transactions/add`<br>
 `GET /transactions/all`<br>
@@ -112,7 +112,7 @@ When adding transactions you must supply the transaction type, transaction amoun
 $ curl -H "Content-Type: application/json" -X POST https://5qg61tzcae.execute-api.eu-west-2.amazonaws.com/dev/transactions/add -d '{"transactionType": "deposit", "transactionAmount": "500", "accountBalance": "500"}'
 ```
 
-To get all transactions run the following command:
+To get all transactions you can run the following command:
 ```shell
 $ curl -H "Content-Type: application/json" -X GET https://5qg61tzcae.execute-api.eu-west-2.amazonaws.com/dev/transactions/all
 ```
@@ -123,7 +123,7 @@ $ curl -H "Content-Type: application/json" -X GET https://5qg61tzcae.execute-api
 
 #### Tests
 
-To run the tests simply enter `npm run test` into the console. This will provide a detailed overview of all the tests and show coverage. Please ensure that you have activated the virtual environment before runnning tests.
+To run the tests simply enter `npm run test` into the console. This will provide test results and coverage.
 
 ```shell
 ---------- coverage: platform darwin, python 3.7.4-final-0 -----------
@@ -147,12 +147,12 @@ TOTAL                                                                  203      
 ```
 ## Process
 
-This app was created using TDD and SOLID principles. The first step was to create the models.
+This solution was developed using TDD and SOLID principles. The first step was to create the models.
 
 #### Account Class
 
 Initially the Account class was made up of 4 functions: `deposit`, `withdraw`, `add_transaction` and `sufficient_funds`.
-I noticed that the deposit and withdraw functions were very similar. As a result I decided to merge them into the add_transaction class. This made the code much more DRY and easier to maintain. The input is validated using the Validate Class.
+I noticed that the deposit and withdraw functions were very similar. As a result I decided to merge them into the add_transaction class. This made the code DRY and easier to maintain. The input is validated using the Validate Class.
 
 ```python
 class Account:
@@ -182,7 +182,7 @@ class Account:
 
 #### Transaction Class
 
-The Transaction class simply consists of attributes representing the date the transaction was made, the transaction type and amount of money being handled. While this could have easily been handled using a python dictionary, extracting these elements into a class makes it easier to extend functionality should one choose to do so.
+The Transaction class simply consists of attributes representing the date that the transaction was made, the transaction type and amount of money being transacted. While this could have easily been handled using a python dictionary, extracting these elements into a class makes it easier to extend functionality should one choose to do so.
 ```python
 class Transaction:
   def __init__(self, amount, transaction_type, date):
@@ -192,7 +192,7 @@ class Transaction:
 ```
 
 #### Validate Class
-This class was made specifically to Validate input. Initially input validation was implemented in the other models but as they grew it made sense to extract these functions into the Validate class. I did my best to make the functions semantic in order to make it more readable.
+This class was made specifically to Validate input. Initially input validation was integrated into each models but as they grew it made sense to extract these functions into the Validate class. I did my best to make the functions semantic in order to make it more readable.
 
 ```python
 Validate.is_positive_number(20) # => True
@@ -241,7 +241,7 @@ class Statement:
 ```
 
 #### Continuous Integration
-I used travisCI for continuous integration. This meant that before merging branches I was confident that all tests were passing.
+I used travisCI for continuous integration. This meant that before merging branches I was confident that all tests were passing and the codde was safe to merge to master.
 
 ## Architecture
 The infrastructure for this app was created using the Serverless framework. While this took some time to learn, it allowed me to specify the elements of the infrastructure in a single file. Deployment is then handled with a single command. This allows you to modify the infrastructure with ease and makes maintaining the infrastructure simple.
@@ -259,23 +259,28 @@ I also set up the app to be deployed locally on localhost. This enabled testing 
 
 I faced numerous challenges while building this serverless app. Chief among them was having to learn so many new technologies in such a short timespan. Other than making Object Oriented Programs in python, almost everything else was new. I had never used flask before, AWS is brand new to me and Serverless is a framework I had never heard about before.
 
-Another challenge was dealing with DynamoDB. DynamoDB is a noSQL database that uses a hash function to organise data accross partitions. This means that data is not necesarilly stored in the order in which it is inputed. In order to combat this I stored the dates in the database as timestamps which would theoretically allow me to order the records based on when they were entered. I used the boto3 client to interact with the database and stored each of the record ID's as a UUID ensuring that records cannot be overwrriten by accident.
+Another challenge was dealing with DynamoDB. DynamoDB is a noSQL database that uses a hash function to organise data accross partitions. This means that data is not necesarilly stored in the order in which it is inputed. In order to combat this I stored the dates in the database as timestamps which would theoretically allow me to order the records based on when they were entered. I used the boto3 client to interact with the database and stored each of the record ID's as a UUID ensuring that records have a unique ID.
 
 I also faced issues storing numbers in the database, the boto3 client was rejecting int and float values which meant that they had to be converted into string values going into the database and back to number values when coming out. This was not ideal and if I had more time I would have liked to conduct more research into this issue. 
 
-I also would have probably used mongoDB instead of DynamoDB given more time. Since the records are essentially a time series, a noSQL structure makes sense. MongoDB would have allowed me to sort values in the database by any of the attributes and this would have made more sense in hindsight.
+I also would have probably used mongoDB instead of DynamoDB given more time. Since the records are essentially a time series, a noSQL structure makes sense, however MongoDB would have also allowed me to sort values in the database by any of the attributes and this would have made more sense in hindsight.
 
 ## Extending
 
-There are several ways in which I would enhance / extend this solution given more time. 
+There are several ways in which one could enhance / extend this solution given more time. 
 
-- I would manage credentials better, as it stands the IAM user I am using has Admin privilidges and while this works, I could have limited access privilidges more.
+- Access Management: 
+As it stands, the IAM user I am using has Admin privilidges and while this works, I could have limited access privilidges more.
 
-- I would also perform more input validation. Right now, you can add transactions with an invalid transaction type.
+- More input Validation:
+Right now, you can add transactions with an invalid transaction type, this should raise an error.
 
-- I would have also like to make sure that you cannot add withdrawals through the API if there is not enough money in the account. As it stands, you can add transactions to the API but it does not validate the balance.
+- Withdrawals with the API:
+The Api does not currently protect against makeing withdrawals when there is not enough money in the account. As it stands, you can add transactions to the API but it does not validate the balance.
 
-- If I had more time to research, I would have also added monitoring for each endpoint. This would allow one to be aware of issues with AWS should they arise.
+- Monitoring: 
+This would allow one to be aware of issues with the AWS servers should they arise.
 
-- Lastly I would have liked to setup continuous deployment. This would have been useful since the app would never be deployed without running tests first. This wasn't a mojor issue in the end since serverless makes it so easy to deploy the app.
+- Continuous deployment: 
+This would have been useful since the app would never be deployed without running tests first. This wasn't a mojor issue in the end since serverless makes it so easy to deploy the app.
 
