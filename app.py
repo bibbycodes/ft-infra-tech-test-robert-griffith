@@ -5,11 +5,11 @@ from lib.Statement import Statement
 from flask import Flask, jsonify, request
 from time import time
 import uuid
+
 app = Flask(__name__)
 TRANSACTIONS_TABLE = os.environ['TRANSACTIONS_TABLE']
 IS_OFFLINE = os.environ.get('IS_OFFLINE')
 
-#switch db depending on envirnment
 client = setup_db(IS_OFFLINE)
 
 @app.route('/')

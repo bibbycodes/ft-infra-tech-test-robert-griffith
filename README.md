@@ -106,7 +106,20 @@ The API portion of this solution represents a single account. You can deposit an
 `GET /transactions/all`<br>
 `GET /statement`
 
-When adding transactions you must supply the transaction type and amount.
+When adding transactions you must supply the transaction type, transaction amount and the current account balance.
+
+```shell
+$ curl -H "Content-Type: application/json" -X POST https://5qg61tzcae.execute-api.eu-west-2.amazonaws.com/dev/transactions/add -d '{"transactionType": "deposit", "transactionAmount": "500", "accountBalance": "500"}'
+```
+
+To get all transactions run the following command:
+```shell
+$ curl -H "Content-Type: application/json" -X GET https://5qg61tzcae.execute-api.eu-west-2.amazonaws.com/dev/transactions/all
+```
+To get a statement using the API run the following command:
+```shell
+$ curl -H "Content-Type: application/json" -X GET https://5qg61tzcae.execute-api.eu-west-2.amazonaws.com/dev/transactions/all
+```
 
 #### Tests
 

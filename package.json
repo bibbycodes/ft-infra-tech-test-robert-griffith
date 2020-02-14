@@ -1,14 +1,14 @@
 {
   "name": "ft-test",
   "version": "1.0.0",
-  "description": "<h2 align=\"center\"> Cloud Engineer Tech Exercise </h2>  <p align=\"center\">  <a href='#overview'>Overview</a> |  <a href='#requirements'>Requirements</a>   |   <a href='#versions'>Versions</a> |   <a href='#example'>Example</a> |  <a href='#links'>Useful Links</a>",
+  "description": "<div align=\"center\"> <img src=\"https://travis-ci.com/bibbycodes/ft-infra-tech-test-robert-griffith.svg?token=GtuEshpCkADdwz3Mtzd1&branch=master\"> </div>",
   "main": "index.js",
   "directories": {
     "lib": "lib",
     "test": "tests"
   },
   "scripts": {
-    "test": "pytest --cov=tests"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -22,11 +22,7 @@
   },
   "homepage": "https://github.com/bibbycodes/ft-infra-tech-test-robert-griffith#readme",
   "devDependencies": {
-    "serverless-dynamodb-local": "^0.2.39",
     "serverless-python-requirements": "^5.0.1",
     "serverless-wsgi": "^1.7.4"
-  },
-  "dependencies": {
-    "serverless-graph": "^0.3.2"
   }
 }
