@@ -15,7 +15,6 @@ class Statement:
 
   def format_items(record):
     date = record[0].date
-    print(type(date))
     if type(date) == float:
       date = datetime.fromtimestamp(date)
     date = date.strftime("%d/%m/%Y")

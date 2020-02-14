@@ -1,24 +1,16 @@
 import os
-import boto3
 from lib.Account import Account
+from lib.helpers import *
 from lib.Statement import Statement
 from flask import Flask, jsonify, request
 from time import time
 import uuid
-
 app = Flask(__name__)
 TRANSACTIONS_TABLE = os.environ['TRANSACTIONS_TABLE']
 IS_OFFLINE = os.environ.get('IS_OFFLINE')
 
 #switch db depending on envirnment
-if IS_OFFLINE:
-  client = boto3.client(
-    'dynamodb',
-    region_name='localhost',
-    endpoint_url='http://localhost:8000'
-  )
-else:
-  client = boto3.client('dynamodb')
+client = setup_db(IS_OFFLINE)
 
 @app.route('/')
 def home():
@@ -44,20 +36,11 @@ def statement():
   transactions = result.get('Items')
   sorted_transactions = sort_transactions_by_timestamp(transactions)
   for record in sorted_transactions:
-    if record["transactionType"]['S'] == "deposit":
-      account.deposit(
-        record["transactionAmount"]['N'],
-        float(record["timestamp"]['S'])
-      )
-    else:
-      print("Withdraw")
-      withdraw = account.withdraw(
-        record["transactionAmount"]['N'],
-        float(record["timestamp"]['S'])
-      )
-      print(withdraw)
-  print(account.ledger[0][0].date)
-  # print(type(sorted_transactions[0]['timestamp']['S']))
+    account.add_transaction(
+      record["transactionType"]['S'],
+      float(record["transactionAmount"]['N']),
+      float(record["timestamp"]['S'])
+    )
   statement = Statement.make(account)
   return statement
 
@@ -90,3 +73,4 @@ def add_transaction():
 
 def sort_transactions_by_timestamp(transactions):
   return sorted(transactions, key = lambda i: float(i['timestamp']['S']), reverse=True)
+
