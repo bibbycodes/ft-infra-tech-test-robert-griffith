@@ -8,9 +8,15 @@ class Validate:
     if False in [is_number, is_date, is_positive]:
       return False
     return True
-  
+
+  def is_positive_number(number):
+    if not Validate.is_number(number):
+      return "Input Must Be A Number"
+    if not Validate.is_positive(number):
+      return "Input Must be Positive"
+    return True
+
   def is_number(amount):
-    amount = Validate.cast_to_number(amount)
     return (type(amount) in [int, float])
 
   def is_positive(amount):

@@ -26,7 +26,16 @@ class Account:
     return "Invalid Input"
 
   def add_transaction(self, transaction_type, amount, transaction_date=datetime.today()):
-    if Validate.is_number(amount):
+    print(transaction_date)
+    if not transaction_date is self.add_transaction.__defaults__[0]:
+      print("Arg Supplied")
+      transaction_date = Validate.cast_to_datetime(transaction_date)
+    if Validate.is_positive_number(amount) == True:
+      if transaction_type == "withdraw":
+        if self.sufficient_funds(amount):
+          amount = float(amount) * -1
+        else:
+          return "Insufficient Funds"
       amount = float(amount)
       self.balance += amount
       transaction = Transaction(amount, transaction_type, transaction_date)
