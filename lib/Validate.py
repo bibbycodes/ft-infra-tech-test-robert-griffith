@@ -35,7 +35,6 @@ class Validate:
   # checks if all values are numbers
   # change to validate using regex if you have time
   def check_date_format(date):
-    # checks for timestamp from API
     if type(date) == float:
       return "timestamp"
     dashes = date.split("-")
@@ -46,6 +45,11 @@ class Validate:
       return "slashes"
     return False
 
+  def transaction_type(transaction_type):
+    if transaction_type in  ["withdraw", "deposit"]:
+      return True
+    return False
+  
   def check_array_includes_numbers(array):
     if len(array) < 1 or not len(array) == 3:
       return False
@@ -54,6 +58,11 @@ class Validate:
       if not is_number:
         return False
     return True
+
+  def transaction(amount, transaction_type):
+    if Validate.transaction_type(transaction_type) == True and Validate.is_positive_number(amount):
+      return True
+    return False
 
   def cast_to_datetime(date_string):
     date_format = Validate.check_date_format(date_string)
