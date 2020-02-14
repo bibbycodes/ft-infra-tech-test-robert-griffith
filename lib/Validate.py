@@ -33,12 +33,11 @@ class Validate:
   # if already date object, return true
   # checks length of year is 4
   # checks if all values are numbers
+  # change to validate using regex if you have time
   def check_date_format(date):
     # checks for timestamp from API
     if type(date) == float:
-      print("check_date_format is float", date)
       return "timestamp"
-    print("here: ", date)
     dashes = date.split("-")
     slashes = date.split('/')
     if Validate.check_array_includes_numbers(dashes) and len(dashes[-1]) == 4:
@@ -58,7 +57,6 @@ class Validate:
 
   def cast_to_datetime(date_string):
     date_format = Validate.check_date_format(date_string)
-    print(date_format)
     if date_format == "dashes":
       return datetime.strptime(date_string, '%d-%m-%Y')
     elif date_format == "slashes":
