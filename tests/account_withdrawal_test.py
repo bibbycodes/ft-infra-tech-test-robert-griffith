@@ -34,9 +34,9 @@ def test_withdraw_with_invalid_input():
   assert account.add_transaction("withdraw", None) == "Invalid Input"
 
 def test_multiple_withdraws():
-  withdrawal1 = account_2.add_transaction("withdraw", 300)
-  withdrawal2 = account_2.add_transaction("withdraw", 200)
-  assert account_2.ledger == [[withdrawal1, 700], [withdrawal2, 500]]
+  withdrawal_1 = account_2.add_transaction("withdraw", 300)
+  withdrawal_2 = account_2.add_transaction("withdraw", 200)
+  assert account_2.ledger == [[withdrawal_1, 700], [withdrawal_2, 500]]
 
 def test_sufficient_balance_on_withdraw():
   assert account_3.add_transaction("withdraw", 300) == "Insufficient Funds"

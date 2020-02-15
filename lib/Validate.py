@@ -2,13 +2,17 @@ from datetime import datetime
 
 class Validate:
   def check_input(amount, date):
-    is_number = Validate.is_number(amount)
-    is_positive = Validate.is_positive(amount)
-    is_date = Validate.date_format(date)
-    if False in [is_number, is_date, is_positive]:
-      return False
+    if not Validate.is_number(amount):
+      return "Amount must be a number"
+    if not Validate.is_positive(amount):
+      return "Amount must be positive"
+    if not Validate.date_format(date):
+      return "Invalid date format"
     return True
-
+  
+  def sufficient_funds(account, amount):
+    return account.balance - amount >= 0
+  
   def is_positive_number(number):
     if not Validate.is_number(number):
       return False
@@ -29,11 +33,6 @@ class Validate:
     except:
       return False
   
-  # checks if format is dd/mm/yyyy or dd-mm-yyy
-  # if already date object, return true
-  # checks length of year is 4
-  # checks if all values are numbers
-  # change to validate using regex if you have time
   def date_format(date):
     if type(date) == float:
       return "timestamp"
@@ -75,4 +74,7 @@ class Validate:
     else:
       return "Invalid date format"
 
-    
+  def date_supplied(account, transaction_date):
+    if transaction_date == account.add_transaction.__defaults__[0]:
+      return transaction_date
+    return Validate.cast_to_datetime(transaction_date)
