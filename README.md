@@ -33,6 +33,8 @@ Clone this repo and cd into the resulting directory.
 Install packages and set up the virtual environment.
 
 `npm install` <br>
+`virtualenv venv --python=python3`
+`source venv/bin/activate`
 `pip install -r requirements.txt` <br>
 
 Install DynamoDB locally:
@@ -111,16 +113,16 @@ The API portion of this solution represents a single account. You can deposit an
 When adding transactions you must supply the transaction type, transaction amount and the current account balance.
 
 ```shell
-$ curl -H "Content-Type: application/json" -X POST https://5qg61tzcae.execute-api.eu-west-2.amazonaws.com/dev/transactions/add -d '{"transactionType": "deposit", "transactionAmount": "500", "accountBalance": "500"}'
+$ curl -H "Content-Type: application/json" -X POST https://ldqccsas74.execute-api.eu-west-2.amazonaws.com/dev/transactions/add -d '{"transactionType": "deposit", "transactionAmount": "500", "accountBalance": "500"}'
 ```
 
 To get all transactions you can run the following command:
 ```shell
-$ curl -H "Content-Type: application/json" -X GET https://5qg61tzcae.execute-api.eu-west-2.amazonaws.com/dev/transactions/all
+$ curl -H "Content-Type: application/json" -X GET https://ldqccsas74.execute-api.eu-west-2.amazonaws.com/dev/transactions/all
 ```
 To get a statement using the API run the following command:
 ```shell
-$ curl -H "Content-Type: application/json" -X GET https://5qg61tzcae.execute-api.eu-west-2.amazonaws.com/dev/transactions/all
+$ curl -H "Content-Type: application/json" -X GET https://ldqccsas74.execute-api.eu-west-2.amazonaws.com/dev/statement
 ```
 
 #### Tests
@@ -133,7 +135,7 @@ Name                                                                 Stmts   Mis
 ----------------------------------------------------------------------------------------
 tests/account_deposit_test.py                                           34      0   100%
 tests/account_init_test.py                                              13      0   100%
-tests/account_withdrawal_test.py                                        32      1    97%
+tests/account_withdraw_test.py                                          25      0   100%
 tests/features/add_transaction_deposit_test.py                           7      0   100%
 tests/features/add_transaction_withdraw_insufficient_funds_test.py       4      0   100%
 tests/features/add_transaction_withdraw_test.py                          7      0   100%
@@ -142,10 +144,10 @@ tests/features/statement_with_date_input_test.py                        14      
 tests/statement_test.py                                                 41      0   100%
 tests/validate_test.py                                                  42      0   100%
 ----------------------------------------------------------------------------------------
-TOTAL                                                                  203      1    99%
+TOTAL                                                                  196      0   100%
 
 
-=============================================== 47 passed in 7.11s ================================================
+======================================================== 44 passed in 2.27s ========================================================
 ```
 ## Process
 
@@ -163,23 +165,20 @@ class Account:
     self.ledger = []
 
   def add_transaction(self, transaction_type, amount, transaction_date=datetime.today()):
-    if not transaction_date is self.add_transaction.__defaults__[0]:
-      transaction_date = Validate.cast_to_datetime(transaction_date)
-    if Validate.is_positive_number(amount) == True:
-      if transaction_type == "withdraw":
-        if self.sufficient_funds(amount):
-          amount = float(amount) * -1
-        else:
-          return "Insufficient Funds"
-      amount = float(amount)
+    transaction_date = Validate.date_is_supplied(self, transaction_date)
+    if Validate.amount(amount, transaction_type, self.balance):
+      amount = self.handle_amount(amount, transaction_type)
       self.balance += amount
       transaction = Transaction(amount, transaction_type, transaction_date)
       self.ledger.append([transaction, self.balance])
+      print(transaction.amount)
       return transaction
-    return "Invalid Input"
+    return Validate.error_message(amount, transaction_type, self.balance)
 
-  def sufficient_funds(self, amount):
-    return self.balance - amount >= 0
+  def handle_amount(self, amount, transaction_type):
+    if transaction_type == "withdraw":
+      amount = amount * -1
+    return float(amount)
 ```
 
 #### Transaction Class
@@ -223,7 +222,6 @@ class Statement:
       return "{} || {} || || {}\n".format(items[0], items[1], items[2])
     elif record[0].transaction_type == "withdraw":
       return "{} || || {} || {}\n".format(items[0], items[1], items[2])
-    return "Invalid Transaction Type"
 
   def format_items(record):
     date = record[0].date

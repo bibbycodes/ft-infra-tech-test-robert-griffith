@@ -1,21 +1,38 @@
 from datetime import datetime
 
 class Validate:
-  def check_input(amount, date):
-    is_number = Validate.is_number(amount)
-    is_positive = Validate.is_positive(amount)
-    is_date = Validate.date_format(date)
-    if False in [is_number, is_date, is_positive]:
+  def amount(amount, transaction_type, balance):
+    if not Validate.transaction_type(transaction_type):
       return False
+    if not Validate.is_number(amount):
+      return False
+    if not Validate.is_positive(amount):
+      return False
+    if transaction_type == "withdraw":
+      if not Validate.sufficient_funds(amount, balance):
+        return False
     return True
 
-  def is_positive_number(number):
-    if not Validate.is_number(number):
-      return False
-    if not Validate.is_positive(number):
+  def error_message(amount, transaction_type, balance):
+    if not Validate.transaction_type(transaction_type):
+      return "Invalid Transaction Type"
+    if not Validate.is_number(amount):
+      return "Amount must be a number"
+    if not Validate.is_positive(amount):
+      return "Amount must be positive"
+    if transaction_type == "withdraw":
+      if not Validate.sufficient_funds(amount, balance):
+        return "Insufficient Funds"
+    return "Invalid Input"
+  
+  def date(date):
+    if not Validate.date_format(date):
       return False
     return True
-
+    
+  def sufficient_funds(amount, balance):
+    return balance - amount >= 0
+  
   def is_number(amount):
     return (type(amount) in [int, float])
 
@@ -29,19 +46,14 @@ class Validate:
     except:
       return False
   
-  # checks if format is dd/mm/yyyy or dd-mm-yyy
-  # if already date object, return true
-  # checks length of year is 4
-  # checks if all values are numbers
-  # change to validate using regex if you have time
   def date_format(date):
     if type(date) == float:
       return "timestamp"
     dashes = date.split("-")
     slashes = date.split('/')
-    if Validate.check_array_includes_numbers(dashes) and len(dashes[-1]) == 4:
+    if Validate.array_includes_numbers(dashes) and len(dashes[-1]) == 4:
       return "dashes"
-    if Validate.check_array_includes_numbers(slashes) and len(slashes[-1]) == 4:
+    if Validate.array_includes_numbers(slashes) and len(slashes[-1]) == 4:
       return "slashes"
     return False
 
@@ -50,7 +62,7 @@ class Validate:
       return True
     return False
   
-  def check_array_includes_numbers(array):
+  def array_includes_numbers(array):
     if len(array) < 1 or not len(array) == 3:
       return False
     for item in array:
@@ -60,7 +72,7 @@ class Validate:
     return True
 
   def transaction(amount, transaction_type):
-    if Validate.transaction_type(transaction_type) == True and Validate.is_positive_number(amount):
+    if Validate.transaction_type(transaction_type) == True and Validate.amount(amount):
       return True
     return False
 
@@ -75,4 +87,7 @@ class Validate:
     else:
       return "Invalid date format"
 
-    
+  def date_is_supplied(account, transaction_date):
+    if transaction_date == account.add_transaction.__defaults__[0]:
+      return transaction_date
+    return Validate.cast_to_datetime(transaction_date)

@@ -8,21 +8,17 @@ class Account:
     self.ledger = []
 
   def add_transaction(self, transaction_type, amount, transaction_date=datetime.today()):
-    if not transaction_date is self.add_transaction.__defaults__[0]:
-      transaction_date = Validate.cast_to_datetime(transaction_date)
-    if Validate.is_positive_number(amount):
-      if transaction_type == "withdraw":
-        if self.sufficient_funds(amount):
-          amount = float(amount) * -1
-        else:
-          return "Insufficient Funds"
-      amount = float(amount)
+    transaction_date = Validate.date_is_supplied(self, transaction_date)
+    if Validate.amount(amount, transaction_type, self.balance):
+      amount = self.handle_amount(amount, transaction_type)
       self.balance += amount
       transaction = Transaction(amount, transaction_type, transaction_date)
       self.ledger.append([transaction, self.balance])
       return transaction
-    return "Invalid Input"
+    return Validate.error_message(amount, transaction_type, self.balance)
 
-  def sufficient_funds(self, amount):
-    return self.balance - amount >= 0
+  def handle_amount(self, amount, transaction_type):
+    if transaction_type == "withdraw":
+      amount = amount * -1
+    return float(amount)
 
