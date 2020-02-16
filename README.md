@@ -297,6 +297,9 @@ The API does not currently protect against making withdrawals when there is not 
 - Monitoring: 
 This would allow one to be aware of issues with the AWS servers should they arise.
 
+- DB class:
+It would have made sense to extract interactions with the database into it's own class.
+
 - Continuous deployment: 
 This would have been useful since the app would never be deployed without running tests first. This wasn't a major issue in the end since serverless makes it so easy to deploy the app.
 
