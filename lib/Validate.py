@@ -1,15 +1,29 @@
 from datetime import datetime
 
 class Validate:
-  def check_input(amount, date):
+  def amount(amount):
+    if not Validate.is_number(amount):
+      return False
+    if not Validate.is_positive(amount):
+      return False
+    return True
+
+  def error_message(amount, date):
     if not Validate.is_number(amount):
       return "Amount must be a number"
     if not Validate.is_positive(amount):
       return "Amount must be positive"
     if not Validate.date_format(date):
       return "Invalid date format"
-    return True
+    # if not Validate.sufficient_funds():
+    #   return "Insufficient Funds"
+    return "Invalid Input"
   
+  def date():
+    if not Validate.date_format(date):
+      return False
+    return True
+    
   def sufficient_funds(account, amount):
     return account.balance - amount >= 0
   
@@ -38,9 +52,9 @@ class Validate:
       return "timestamp"
     dashes = date.split("-")
     slashes = date.split('/')
-    if Validate.check_array_includes_numbers(dashes) and len(dashes[-1]) == 4:
+    if Validate.array_includes_numbers(dashes) and len(dashes[-1]) == 4:
       return "dashes"
-    if Validate.check_array_includes_numbers(slashes) and len(slashes[-1]) == 4:
+    if Validate.array_includes_numbers(slashes) and len(slashes[-1]) == 4:
       return "slashes"
     return False
 
@@ -49,7 +63,7 @@ class Validate:
       return True
     return False
   
-  def check_array_includes_numbers(array):
+  def array_includes_numbers(array):
     if len(array) < 1 or not len(array) == 3:
       return False
     for item in array:
@@ -74,7 +88,7 @@ class Validate:
     else:
       return "Invalid date format"
 
-  def date_supplied(account, transaction_date):
+  def date_is_supplied(account, transaction_date):
     if transaction_date == account.add_transaction.__defaults__[0]:
       return transaction_date
     return Validate.cast_to_datetime(transaction_date)
