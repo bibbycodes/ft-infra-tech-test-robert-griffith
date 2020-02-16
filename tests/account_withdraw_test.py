@@ -25,7 +25,7 @@ def test_withdraw_with_negative_amount():
   assert account.add_transaction("withdraw", -300) == "Amount must be positive"
 
 def test_withdraw_with_string_input():
-  assert account_4.add_transaction("withdraw","300") == "Amount must be a number"
+  assert account_4.add_transaction("withdraw", "300") == "Amount must be a number"
 
 def test_withdraw_with_invalid_input():
   assert account.add_transaction("withdraw", []) == "Amount must be a number"

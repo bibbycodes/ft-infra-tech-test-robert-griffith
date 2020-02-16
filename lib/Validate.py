@@ -1,22 +1,24 @@
 from datetime import datetime
 
 class Validate:
-  def amount(amount):
+  def amount(amount, transaction_type, balance):
     if not Validate.is_number(amount):
       return False
     if not Validate.is_positive(amount):
       return False
+    if transaction_type == "withdraw":
+      if not Validate.sufficient_funds(amount, balance):
+        return False
     return True
 
-  def error_message(amount, date):
+  def error_message(amount, transaction_type, balance):
     if not Validate.is_number(amount):
       return "Amount must be a number"
     if not Validate.is_positive(amount):
       return "Amount must be positive"
-    if not Validate.date_format(date):
-      return "Invalid date format"
-    # if not Validate.sufficient_funds():
-    #   return "Insufficient Funds"
+    if transaction_type == "withdraw":
+      if not Validate.sufficient_funds(amount, balance):
+        return "Insufficient Funds"
     return "Invalid Input"
   
   def date():
@@ -24,15 +26,9 @@ class Validate:
       return False
     return True
     
-  def sufficient_funds(account, amount):
-    return account.balance - amount >= 0
+  def sufficient_funds(amount, balance):
+    return balance - amount >= 0
   
-  def is_positive_number(number):
-    if not Validate.is_number(number):
-      return False
-    if not Validate.is_positive(number):
-      return False
-    return True
 
   def is_number(amount):
     return (type(amount) in [int, float])
@@ -73,7 +69,7 @@ class Validate:
     return True
 
   def transaction(amount, transaction_type):
-    if Validate.transaction_type(transaction_type) == True and Validate.is_positive_number(amount):
+    if Validate.transaction_type(transaction_type) == True and Validate.amount(amount):
       return True
     return False
 
