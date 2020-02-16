@@ -33,18 +33,18 @@ Clone this repo and cd into the resulting directory.
 Install packages and set up the virtual environment.
 
 `npm install` <br>
-`virtualenv venv --python=python3`
-`source venv/bin/activate`
+`virtualenv venv --python=python3`<br>
+`source venv/bin/activate`<br>
 `pip install -r requirements.txt` <br>
 
-Install DynamoDB locally:
-`sls dynamodb install`
+Install DynamoDB locally:<br>
+`sls dynamodb install`<br>
 
 #### Running The Api Locally
-To run the app locally you will need two terminals. In the first terminal enter:
-`sls dynamodb start`
+To run the app locally you will need two terminals. In the first terminal enter:<br>
+`sls dynamodb start`<br>
 
-In the second terminal enter:
+In the second terminal enter:<br>
 `sls wsgi server`
 
 You should now be able to visit `http://localhost:5000` and access the API.
