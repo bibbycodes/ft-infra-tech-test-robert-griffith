@@ -14,7 +14,6 @@ class Account:
       self.balance += amount
       transaction = Transaction(amount, transaction_type, transaction_date)
       self.ledger.append([transaction, self.balance])
-      print(transaction.amount)
       return transaction
     return Validate.error_message(amount, transaction_type, self.balance)
 
