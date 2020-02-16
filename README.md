@@ -100,8 +100,26 @@ date || credit || debit || balance
 10/10/2020 || || 700.00 || 800.00
 15/10/2020 || 800.00 || || 1600.00
 ```
-
 The transactions must be entered in chronological order for the statement to print correctly.
+
+Input for traqnsactions is validated:
+```shell
+>>> account = Account()
+>>> account.add_transaction("withdrawal", 800)
+'Invalid Transaction Type'
+>>> account.add_transaction("deposit", "hello")
+'Amount must be a number'
+>>> account.add_transaction("deposit", -300)
+'Amount must be positive'
+```
+
+Withdrawals will be blocked if there are insufficient funds:
+
+```shell
+>>> account = Account()
+>>> account.add_transaction("withdraw", 400)
+'Insufficient Funds'
+```
 
 #### API
 The API portion of this solution represents a single account. You can deposit and withdraw money, return a json file containing all transactions and have a statement returned through the following 3 endpoints:
@@ -156,7 +174,7 @@ This solution was developed using TDD and SOLID principles. The first step was t
 #### Account Class
 
 Initially, the Account class was made up of 4 functions: `deposit`, `withdraw`, `add_transaction` and `sufficient_funds`.
-I noticed that the deposit and withdraw functions were very similar. As a result, I decided to merge them into the add_transaction class. This made the code DRY and easier to maintain. The input is validated using the Validate Class.
+I noticed that the deposit and withdraw functions were very similar. As a result, I decided to merge them into the add_transaction class. This made the code DRY and easier to maintain. I also decided that sufficient_funds belonged in the Validate class. What we are left with is a class with two functions. One that adds a transaction, and another to handle the amount being transacted when a withdrawal is made.
 
 ```python
 class Account:
