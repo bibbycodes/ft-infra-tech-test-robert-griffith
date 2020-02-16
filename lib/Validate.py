@@ -21,7 +21,7 @@ class Validate:
         return "Insufficient Funds"
     return "Invalid Input"
   
-  def date():
+  def date(date):
     if not Validate.date_format(date):
       return False
     return True
@@ -29,7 +29,6 @@ class Validate:
   def sufficient_funds(amount, balance):
     return balance - amount >= 0
   
-
   def is_number(amount):
     return (type(amount) in [int, float])
 
