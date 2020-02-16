@@ -71,11 +71,6 @@ class Validate:
         return False
     return True
 
-  def transaction(amount, transaction_type):
-    if Validate.transaction_type(transaction_type) == True and Validate.amount(amount):
-      return True
-    return False
-
   def cast_to_datetime(date_string):
     date_format = Validate.date_format(date_string)
     if date_format == "dashes":

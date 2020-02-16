@@ -17,7 +17,7 @@
 Deployed Version:
 <a href="https://ldqccsas74.execute-api.eu-west-2.amazonaws.com/dev">https://ldqccsas74.execute-api.eu-west-2.amazonaws.com/dev<a>
   
-## Setup
+# Setup
 To interact with all aspects of this code you must have an AWS account and credentials must be supplied. To check if you have credentials stored on your computer type in the following command into the terminal.
 `cat ~/.aws/credentials`
 
@@ -40,7 +40,7 @@ Install packages and set up the virtual environment.
 Install DynamoDB locally:<br>
 `sls dynamodb install`<br>
 
-#### Running The Api Locally
+## Running The Api Locally
 To run the app locally you will need two terminals. In the first terminal enter:<br>
 `sls dynamodb start`<br>
 
@@ -49,13 +49,13 @@ In the second terminal enter:<br>
 
 You should now be able to visit `http://localhost:5000` and access the API.
 
-#### Deploying to AWS
+## Deploying to AWS
 To deploy to AWS, simply enter:<br>
 `sls deploy`
 
 This will deploy the infrastructure based on the configuration that is specified in serverless.yml and provide you with a URL endpoint from which you can access the API.
 
-## Usage
+# Usage
 First activate the virtual environment and enter the python REPL:
 ```shell
 (venv) (base) $>> source venv/bin/activate`
@@ -121,7 +121,7 @@ Withdrawals will be blocked if there are insufficient funds:
 'Insufficient Funds'
 ```
 
-#### API
+# API
 The API portion of this solution represents a single account. You can deposit and withdraw money, return a json file containing all transactions and have a statement returned through the following 3 endpoints:
 
 `POST /transactions/add`<br>
@@ -143,7 +143,7 @@ To get a statement using the API run the following command:
 $ curl -H "Content-Type: application/json" -X GET https://ldqccsas74.execute-api.eu-west-2.amazonaws.com/dev/statement
 ```
 
-#### Tests
+# Tests
 
 To run the tests simply enter `npm run test` into the console. This will provide test results and coverage.
 
@@ -167,11 +167,10 @@ TOTAL                                                                  196      
 
 ======================================================== 44 passed in 2.27s ========================================================
 ```
-## Process
+# Process
 
-This solution was developed using TDD and SOLID principles. The first step was to create the models.
-
-#### Account Class
+## Models
+#### The Account Class
 
 Initially, the Account class was made up of 4 functions: `deposit`, `withdraw`, `add_transaction` and `sufficient_funds`.
 I noticed that the deposit and withdraw functions were very similar. As a result, I decided to merge them into the add_transaction class. This made the code DRY and easier to maintain. I also decided that sufficient_funds belonged in the Validate class. What we are left with is a class with two functions. One that adds a transaction, and another to handle the amount being transacted when a withdrawal is made.
@@ -199,7 +198,7 @@ class Account:
     return float(amount)
 ```
 
-#### Transaction Class
+#### The Transaction Class
 
 The Transaction class simply consists of attributes representing the date that the transaction was made, the transaction type and amount of money being transacted. While this could have easily been handled using a python dictionary, extracting these elements into a class makes it easier to extend functionality should one choose to do so.
 ```python
@@ -210,7 +209,7 @@ class Transaction:
     self.amount = amount
 ```
 
-#### Validate Class
+#### The Validate Class
 This class was made specifically to Validate input. Initially, input validation was integrated into each model but as they grew it made sense to extract these functions into the Validate class. I ensured that the functions were named semantically to make the code more readable.
 
 ```python
@@ -262,7 +261,7 @@ class Statement:
 I used Travis CI for continuous integration. This meant that I was confident that all tests were passing and that branches were safe to merge.
 
 ## Architecture
-The infrastructure for this app was created using the Serverless framework. While this took some time to learn, it allowed me to specify the elements of the infrastructure in a single file. Deployment is handled with a single command. This allows you to modify and maintain the infrastructure with ease.
+The infrastructure for this app was created using the Serverless framework. Elements of the infrastructure are specified  in a single file. Deployment is handled with a single command. This allows you to modify and maintain the infrastructure with ease.
 
 The static files are stored in an AWS S3 container. The app is served using an API Gateway and code is executed using a Lambda function. Records can be stored in a DynamoDB database.<br>
 
