@@ -183,12 +183,11 @@ class Account:
 
   def add_transaction(self, transaction_type, amount, transaction_date=datetime.today()):
     transaction_date = Validate.date_is_supplied(self, transaction_date)
-    if Validate.amount(amount, transaction_type, self.balance):
+    if Validate.transaction(amount, transaction_type, self.balance):
       amount = self.handle_amount(amount, transaction_type)
       self.balance += amount
       transaction = Transaction(amount, transaction_type, transaction_date)
       self.ledger.append([transaction, self.balance])
-      print(transaction.amount)
       return transaction
     return Validate.error_message(amount, transaction_type, self.balance)
 
@@ -283,7 +282,7 @@ Another challenge was dealing with DynamoDB. DynamoDB is a noSQL database that u
 
 I also faced issues storing numbers in the database, the boto3 client was rejecting int and float values which meant that they had to be converted into string values going into the database and back to number values when coming out. This was not ideal and if I had more time I would have liked to conduct more research into this issue. 
 
-I also would have probably used mongoDB instead of DynamoDB given more time. Since the records are essentially a time series, a noSQL structure makes sense. MongoDB however, would have also allowed me to sort values in the database by any of the attributes and this would have made more sense in hindsight.
+I would have probably used mongoDB instead of DynamoDB given more time. Since the records are essentially a time series, a noSQL structure makes sense. MongoDB however, would have also allowed me to sort values in the database by any of the attributes and this would have made more sense in hindsight.
 
 ## Extending
 
@@ -291,9 +290,6 @@ There are several ways in which one could enhance/extend this solution.
 
 - Access Management: 
 As it stands, the IAM user I am using has admin privileges and while this works, I could have limited access privileges more.
-
-- More input Validation:
-Right now, you can add transactions with an invalid transaction type, this should raise an error.
 
 - Withdrawals with the API:
 The API does not currently protect against making withdrawals when there is not enough money in the account. As it stands, you can add transactions to the API but it does not validate the balance.

@@ -71,6 +71,3 @@ def add_transaction():
     'timestamp'         : timestamp
   })
 
-def sort_transactions_by_timestamp(transactions):
-  return sorted(transactions, key = lambda i: float(i['timestamp']['S']), reverse=True)
-

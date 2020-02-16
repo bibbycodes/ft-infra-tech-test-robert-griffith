@@ -9,7 +9,7 @@ class Account:
 
   def add_transaction(self, transaction_type, amount, transaction_date=datetime.today()):
     transaction_date = Validate.date_is_supplied(self, transaction_date)
-    if Validate.amount(amount, transaction_type, self.balance):
+    if Validate.transaction(amount, transaction_type, self.balance):
       amount = self.handle_amount(amount, transaction_type)
       self.balance += amount
       transaction = Transaction(amount, transaction_type, transaction_date)

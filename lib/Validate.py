@@ -1,7 +1,7 @@
 from datetime import datetime
 
 class Validate:
-  def amount(amount, transaction_type, balance):
+  def transaction(amount, transaction_type, balance):
     if not Validate.transaction_type(transaction_type):
       return False
     if not Validate.is_number(amount):
