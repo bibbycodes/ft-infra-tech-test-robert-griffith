@@ -45,7 +45,7 @@ To run the app locally you will need two terminals. In the first terminal enter:
 `sls dynamodb start`<br>
 
 In the second terminal enter:<br>
-`sls wsgi server`
+`sls wsgi serve`
 
 You should now be able to visit `http://localhost:5000` and access the API.
 
@@ -102,7 +102,7 @@ date || credit || debit || balance
 ```
 The transactions must be entered in chronological order for the statement to print correctly.
 
-Input for traqnsactions is validated:
+Input for transactions is validated:
 ```shell
 >>> account = Account()
 >>> account.add_transaction("withdrawal", 800)
