@@ -15,7 +15,7 @@
 <img src="https://travis-ci.com/bibbycodes/ft-infra-tech-test-robert-griffith.svg?token=GtuEshpCkADdwz3Mtzd1&branch=master">
 
 API base URL:
-<a href="https://ldqccsas74.execute-api.eu-west-2.amazonaws.com/dev">https://ldqccsas74.execute-api.eu-west-2.amazonaws.com/dev<a>
+<a href="https://ldqccsas74.execute-api.eu-west-2.amazonaws.com/dev">https://ldqccsas74.execute-api.eu-west-2.amazonaws.com/dev (Deprecated)<a>
   
 # Setup
 To interact with all aspects of this code you must have an AWS account and credentials must be supplied. To check if you have credentials stored on your computer type in the following command into the terminal.
